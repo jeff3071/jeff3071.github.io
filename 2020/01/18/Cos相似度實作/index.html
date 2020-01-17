@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Cos相似度實作 | Blog</title><meta name="description"><meta name="generator" content="Blog"><meta name="author" content="Jeff"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="Blog" title="Blog" itemprop="headline">Blog</a></h1><p itemprop="description"></p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">Cos相似度實作</h1><span class="post-meta"></span><br><br><h2 id="方法設計"><a href="#方法設計" class="headerlink" title="方法設計"></a>方法設計</h2><ol>
+<li>使用jieba斷詞，設置自定義字典</li>
+<li>每篇文章斷詞後，計算每篇文章對於這個集合中的詞的詞頻生成兩篇文章各自的詞頻向量</li>
+<li>計算兩個向量的餘弦相似度，值越大就表示越相似</li>
+</ol>
+<h2 id="實現說明"><a href="#實現說明" class="headerlink" title="實現說明"></a>實現說明</h2><h3 id="爬取文章"><a href="#爬取文章" class="headerlink" title="爬取文章"></a>爬取文章</h3><p>我們利用爬蟲爬取分析目標的粉絲專頁，並將其內容寫入MySQL裡的facebook資料表，並將jieba斷詞後不重複的結果寫入MySQL的dictionary資料表中word欄位</p>
+<blockquote>
+<p>我們選取怪奇事務所的粉專進行</p>
+</blockquote>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#Facebook粉絲頁網址</span>
+url <span class="token operator">=</span> <span class="token string">"https://mbasic.facebook.com/IncredivilleTW/?refid=13&amp;__tn__=%2Cg"</span>
+
+resp <span class="token operator">=</span> req<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">,</span> cookies<span class="token operator">=</span>cookies<span class="token punctuation">)</span>
+
+    html_doc <span class="token operator">=</span> resp<span class="token punctuation">.</span>text
+
+    soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html_doc<span class="token punctuation">,</span> <span class="token string">'html.parser'</span><span class="token punctuation">)</span>
+    headers <span class="token operator">=</span> <span class="token punctuation">{</span>
+            <span class="token string">'cookie'</span><span class="token punctuation">:</span> <span class="token string">'datr=lsdAXbRR26aO9ePicNOFFkF6; sb=v8dAXdIceUJHQYtxfH5yJghe; _fbp=fb.1.1568882205233.239187278; locale=zh_TW; c_user=531045890; xs=37%3AqDyc_aZQWbZqJQ%3A2%3A1570409723%3A17284%3A8670%3A4bOHmE1AjVm-UQ; presence=EDvF3EtimeF1570574420EuserFA2531045890A2EstateFDt3F_5bDiFA2user_3a506028681A2EoF1EfF1C_5dEutc3F1570409759903G570574420183Elm3FnullCEchFDp_5f531045890F1CC; wd=1280x648; fr=0POPFYG9NYhEAyYKy.AWUwzziefaPVhk_qeNUq-ORj_XI.BdQMTz.zg.F2a.0.0.BdnqEu.AWV_r9K_; spin=r.1001274804_b.trunk_t.1570680542_s.1_v.2_; dpr=2; act=1570684244969%2F1'</span>
+
+    <span class="token punctuation">}</span>
+
+docs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+filter <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"[^\u4e00-\u9fa5A-Za-z]+"</span><span class="token punctuation">)</span>
+
+titles <span class="token operator">=</span> soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> titles<span class="token punctuation">:</span>
+  doc <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">if</span> t<span class="token punctuation">.</span>has_attr<span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token string">"story.php"</span> <span class="token keyword">in</span> t<span class="token punctuation">[</span><span class="token string">"href"</span><span class="token punctuation">]</span> <span class="token operator">and</span> <span class="token string">"https://"</span> <span class="token operator">not</span> <span class="token keyword">in</span> t<span class="token punctuation">[</span><span class="token string">"href"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+
+
+
+              <span class="token comment" spellcheck="true">#發文url</span>
+              post_url <span class="token operator">=</span> <span class="token string">"https://mbasic.facebook.com"</span><span class="token operator">+</span>t<span class="token punctuation">[</span><span class="token string">"href"</span><span class="token punctuation">]</span>
+
+
+                    <span class="token comment" spellcheck="true">#文章id</span>
+                    url_rex <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"story_fbid=(.*?)(?:&amp;|$)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                          <span class="token keyword">print</span><span class="token punctuation">(</span>post_url<span class="token punctuation">)</span>
+
+          post_id <span class="token operator">=</span> url_rex<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>post_url<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+
+                resp_1 <span class="token operator">=</span> req<span class="token punctuation">.</span>get<span class="token punctuation">(</span>post_url<span class="token punctuation">,</span> cookies<span class="token operator">=</span>cookies<span class="token punctuation">,</span>headers<span class="token operator">=</span>headers<span class="token punctuation">)</span>
+
+          <span class="token comment" spellcheck="true">#Facebook發文文章</span>
+          html_doc_1 <span class="token operator">=</span> resp_1<span class="token punctuation">.</span>text
+
+                soup_1 <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html_doc_1<span class="token punctuation">,</span> <span class="token string">'html.parser'</span><span class="token punctuation">)</span>
+
+
+                      <span class="token comment" spellcheck="true">#存放文章內容的list</span>
+                      docs_1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+                            <span class="token comment" spellcheck="true">#取得所有文章，包含留言</span>
+                            titles_1 <span class="token operator">=</span> soup_1<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span>
+                                  reply_id_array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+                                        post_id_array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+                                              <span class="token keyword">for</span> t_1 <span class="token keyword">in</span> titles_1<span class="token punctuation">:</span>
+                                                      <span class="token keyword">if</span><span class="token punctuation">(</span>t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"h3"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+                                                                    <span class="token comment" spellcheck="true">#發文者</span>
+                                                                    name <span class="token operator">=</span> t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"h3"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getText<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+                                                                              <span class="token comment" spellcheck="true">#發文時間,有可能我們說到的結構沒有包含abbr，要判斷以濾掉</span>
+
+                                                                              <span class="token keyword">if</span>  t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"abbr"</span><span class="token punctuation">)</span> <span class="token keyword">is</span> None<span class="token punctuation">:</span>
+                                                                                          publish_date <span class="token operator">=</span> None<span class="token punctuation">;</span>
+                                                                                                    <span class="token keyword">else</span><span class="token punctuation">:</span>
+                                                                                                                publish_date <span class="token operator">=</span> t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"abbr"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getText<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+                                                                                                                          <span class="token comment" spellcheck="true">#發文內容</span>
+                                                                                                                          sub_content<span class="token operator">=</span> t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"h3"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>find_next<span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getText<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+                                                                                                                                    <span class="token comment" spellcheck="true">#發文id,如果沒有id，就代表是原始文章</span>
+                                                                                                                                    reply_id<span class="token operator">=</span> t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"h3"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>find_parent<span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>find_parent<span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span>
+
+                                                                                                                                              <span class="token keyword">if</span> reply_id <span class="token keyword">is</span> None <span class="token operator">and</span> post_id <span class="token keyword">in</span> post_id_array<span class="token punctuation">:</span>
+                                                                                                                                                          <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                                                                                                                                                                    <span class="token keyword">else</span><span class="token punctuation">:</span>
+                                                                                                                                                                                post_id_array<span class="token punctuation">.</span>append<span class="token punctuation">(</span>post_id<span class="token punctuation">)</span>
+
+              <span class="token keyword">if</span> reply_id <span class="token keyword">is</span> <span class="token operator">not</span> None <span class="token operator">and</span> reply_id <span class="token keyword">in</span> reply_id_array<span class="token punctuation">:</span>
+                          <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                                    <span class="token keyword">else</span><span class="token punctuation">:</span>
+                                                reply_id_array<span class="token punctuation">.</span>append<span class="token punctuation">(</span>reply_id<span class="token punctuation">)</span>
+              <span class="token comment" spellcheck="true">#將發文內容斷詞</span>
+              seg_list <span class="token operator">=</span> jieba<span class="token punctuation">.</span>cut<span class="token punctuation">(</span>sub_content<span class="token punctuation">,</span> cut_all<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+              insertDictionary<span class="token punctuation">(</span>seg_list<span class="token punctuation">)</span>
+              item <span class="token operator">=</span> <span class="token punctuation">{</span>
+                              <span class="token string">"post_id"</span><span class="token punctuation">:</span>post_id<span class="token punctuation">,</span>
+                                          <span class="token string">"author"</span><span class="token punctuation">:</span>name<span class="token punctuation">,</span>
+                                                      <span class="token string">"content"</span><span class="token punctuation">:</span>remove_emoji<span class="token punctuation">(</span>sub_content<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                                                  <span class="token string">"reply_id"</span><span class="token punctuation">:</span>t_1<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">"h3"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>find_parent<span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>find_parent<span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                                                              <span class="token string">"publish_date"</span><span class="token punctuation">:</span>publish_date<span class="token punctuation">,</span>
+                                                                                          <span class="token string">"url"</span><span class="token punctuation">:</span>post_url<span class="token punctuation">,</span>
+
+                                                                                                    <span class="token punctuation">}</span>
+
+          insertContent<span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+
+
+              docs_1<span class="token punctuation">.</span>append<span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+    ```
+
+<span class="token comment" spellcheck="true">### 製成字典</span>
+    將dictionary資料表word欄位中的資料取出，並製成字典
+
+    ```python
+    dicts <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    sql <span class="token operator">=</span> <span class="token string">"select * from dictionary"</span>
+    mycursor <span class="token operator">=</span> mydb<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    mycursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>sql<span class="token punctuation">)</span>
+    myresult <span class="token operator">=</span> mycursor<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> myresult<span class="token punctuation">:</span>
+      dicts<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    ```
+
+<span class="token comment" spellcheck="true">### 生成詞頻向量並且計算餘弦相似度</span>
+
+    取出欲分析之兩篇文章後，再次使用jieba斷詞，並且依照字典產生詞頻向量，計算兩篇文章之餘弦相似度，值愈大代表愈相似
+
+    ```python
+    sql <span class="token operator">=</span> <span class="token string">"select post_id,content from facebook limit 2"</span>
+    mycursor <span class="token operator">=</span> mydb<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    mycursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>sql<span class="token punctuation">)</span>
+    myresult <span class="token operator">=</span> mycursor<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    post_ids <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    post_contents <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    post_array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> myresult<span class="token punctuation">:</span>
+      post_ids<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+      post_contents<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+      seg_list <span class="token operator">=</span> jieba<span class="token punctuation">.</span>cut<span class="token punctuation">(</span>i<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> cut_all<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+      docA <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>len<span class="token punctuation">(</span>dicts<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token keyword">for</span> j <span class="token keyword">in</span> seg_list<span class="token punctuation">:</span>
+          p <span class="token operator">=</span> dicts<span class="token punctuation">.</span>index<span class="token punctuation">(</span>j<span class="token punctuation">)</span>
+        docA<span class="token punctuation">[</span>p<span class="token punctuation">:</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> docA<span class="token punctuation">[</span>p<span class="token punctuation">:</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span>
+          post_array<span class="token punctuation">.</span>append<span class="token punctuation">(</span>docA<span class="token punctuation">)</span>
+    c <span class="token operator">=</span> np<span class="token punctuation">.</span>dot<span class="token punctuation">(</span>post_array<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>post_array<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    a_s <span class="token operator">=</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>np<span class="token punctuation">.</span>sum<span class="token punctuation">(</span>post_array<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    b_s <span class="token operator">=</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>np<span class="token punctuation">.</span>sum<span class="token punctuation">(</span>post_array<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    result <span class="token operator">=</span> c <span class="token operator">/</span> <span class="token punctuation">(</span>a_s <span class="token operator">*</span> b_s<span class="token punctuation">)</span>
+    ```</code></pre>
+</article><br><br><span class="next-post"><a href="/2020/01/18/hello-world/" itemprop="url">Older Post ⇒</a></span><br><br><br></main></body></html>
