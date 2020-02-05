@@ -1,7 +1,7 @@
 ---
 title: leetcode.110
 date: 2020-02-05 21:15:52
-tags: leetcode, tree 
+tags: leetcode
 ---
 # 110. Balanced Binary Tree
 ## 題目敘述
