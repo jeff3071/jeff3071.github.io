@@ -10,7 +10,12 @@ keywords:
 author: Jeff
 language: zh-tw
 timezone:
-
+about : {
+  name : "Jeff",
+  intro1 : "一個熱愛資訊的開發者",
+  email : "jeff563715@gmail.com",
+  github : "https://github.com/jeff3071",
+}
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://yoursite.com
