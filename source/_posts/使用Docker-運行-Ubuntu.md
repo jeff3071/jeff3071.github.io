@@ -7,7 +7,7 @@ tags:
 intro: ''
 
 ---
-<!--more-->
+
 
 ```
 環境：macOS
@@ -25,6 +25,7 @@ intro: ''
 - `-t`：預設執行 /bin/bash process，為了讓 container 啟動後不會立即停止
 - ubuntu：官方image名字
 
+<!--more-->
 **一個container一個process**
 
 而process執行完container會自動釋放

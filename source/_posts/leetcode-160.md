@@ -10,6 +10,7 @@ Write a program to find the node at which the intersection of two singly linked 
 ![](https://assets.leetcode.com/uploads/2018/12/13/160_example_1.png)
 
 **使用O(1)的空間**
+<!--more-->
 ## 解法
 ```Python
 # Definition for singly-linked list.

@@ -8,7 +8,7 @@ tags: leetcode
 ## 題目敘述
 
 Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
-
+<!--more-->
 ## 解法
 
 ```

@@ -16,6 +16,7 @@ tags:
     
 我們利用爬蟲爬取分析目標的粉絲專頁，並將其內容寫入MySQL裡的facebook資料表，並將jieba斷詞後不重複的結果寫入MySQL的dictionary資料表中word欄位
 
+<!--more-->
 > 我們選取怪奇事務所的粉專進行
 
 ```python
