@@ -20,20 +20,16 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="118. Pascal’s Triangle題目敘述Given a non-negative integer numRows, generate the first numRows of Pascal’s triangle.">
-<meta name="keywords" content="leetcode">
-<meta property="og:type" content="article">
-<meta property="og:title" content="leetcode-118">
-<meta property="og:url" content="http://yoursite.com/2020/02/09/leetcode-118/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="articles">
+<meta property="og:url" content="http://yoursite.com/articles/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="118. Pascal’s Triangle題目敘述Given a non-negative integer numRows, generate the first numRows of Pascal’s triangle.">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2020-08-10T12:18:42.885Z">
+<meta property="og:updated_time" content="2020-02-21T13:46:55.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="leetcode-118">
-<meta name="twitter:description" content="118. Pascal’s Triangle題目敘述Given a non-negative integer numRows, generate the first numRows of Pascal’s triangle.">
+<meta name="twitter:title" content="articles">
 
-<link rel="canonical" href="http://yoursite.com/2020/02/09/leetcode-118/">
+<link rel="canonical" href="http://yoursite.com/articles/">
 
 
 <script id="page-configurations">
@@ -41,12 +37,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-tw'
   };
 </script>
 
-  <title>leetcode-118 | Blog</title>
+  <title>articles | Blog
+</title>
   
 
 
@@ -143,108 +140,43 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+  
+  
 
-          <div class="content post posts-expand">
+          <div class="content page posts-expand">
             
 
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/09/leetcode-118/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jeff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
+    
+    
+    <div class="post-block" lang="zh-tw">
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          leetcode-118
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
+<h1 class="post-title" itemprop="name headline">articles
+</h1>
 
-              <time title="Created: 2020-02-09 20:16:03" itemprop="dateCreated datePublished" datetime="2020-02-09T20:16:03+08:00">2020-02-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-10 20:18:42" itemprop="dateModified" datetime="2020-08-10T20:18:42+08:00">2020-08-10</time>
-              </span>
+<div class="post-meta">
+  
 
-          
+</div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
-        <h1 id="118-Pascal’s-Triangle"><a href="#118-Pascal’s-Triangle" class="headerlink" title="118. Pascal’s Triangle"></a>118. Pascal’s Triangle</h1><h2 id="題目敘述"><a href="#題目敘述" class="headerlink" title="題目敘述"></a>題目敘述</h2><p>Given a non-negative integer numRows, generate the first numRows of Pascal’s triangle.</p>
-<a id="more"></a>
-<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><pre><code>class Solution:
-    def generate(self, numRows: int) -&gt; List[List[int]]:
-        ans = []
-        for i in range(numRows):
-            if i == 0:
-                ans.append([1])
-            elif i == 1:
-                ans.append([1,1])
-            else:
-                temp = [1]
-                for x in range(i-1):
-                    temp.append(ans[i-1][x]+ ans[i-1][x+1])
-                temp.append(1)
-                ans.append(temp)
-        return ans</code></pre><p>滿容易理解的，先處理第一層和第二層<br>再用一個For迴圈去產生接下來幾層<br>例如第三層是[1,2,1]，而頭尾都是1，中間的2是第二層的兩個元素相加<br>所以如果是第i層，會有i-2個元素需要從i-1層產生</p>
-
+      
+      
+      <div class="post-body">
+          
+      </div>
+      
+      
+      
     </div>
+    
 
     
     
     
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/02/09/leetcode-112/" rel="prev" title="leetcode-112">
-      <i class="fa fa-chevron-left"></i> leetcode-112
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/18/leetcode-141/" rel="next" title="leetcode-141">
-      leetcode-141 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
 
 
           </div>
@@ -295,7 +227,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#118-Pascal’s-Triangle"><span class="nav-number">1.</span> <span class="nav-text">118. Pascal’s Triangle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#題目敘述"><span class="nav-number">1.1.</span> <span class="nav-text">題目敘述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法"><span class="nav-number">1.2.</span> <span class="nav-text">解法</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
