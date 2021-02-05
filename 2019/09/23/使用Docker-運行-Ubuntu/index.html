@@ -17,21 +17,21 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="環境：macOS建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /bin/">
+  <meta name="description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /b">
 <meta name="keywords" content="docker,Ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Docker 運行 Ubuntu">
 <meta property="og:url" content="http://yoursite.com/2019/09/23/使用Docker-運行-Ubuntu/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="環境：macOS建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /bin/">
+<meta property="og:description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /b">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:updated_time" content="2021-01-24T12:30:46.619Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Docker 運行 Ubuntu">
-<meta name="twitter:description" content="環境：macOS建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /bin/">
+<meta name="twitter:description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /b">
 
 <link rel="canonical" href="http://yoursite.com/2019/09/23/使用Docker-運行-Ubuntu/">
 
@@ -104,6 +104,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -133,11 +134,38 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -206,7 +234,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <pre><code>環境：macOS</code></pre><h2 id="建立Container"><a href="#建立Container" class="headerlink" title="建立Container"></a>建立Container</h2><p><code>$ docker run --name MyUbuntu -dt ubuntu</code></p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">環境：macOS</span><br></pre></td></tr></table></figure>
+
+<h2 id="建立Container"><a href="#建立Container" class="headerlink" title="建立Container"></a>建立Container</h2><p><code>$ docker run --name MyUbuntu -dt ubuntu</code></p>
 <p><code>docker run</code>會由image建立contaniner</p>
 <p>參數定義</p>
 <ul>
@@ -326,7 +356,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -339,7 +369,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -421,6 +451,8 @@
     })();
   }
   </script>
+
+  <script src="/js/local-search.js"></script>
 
 
 
