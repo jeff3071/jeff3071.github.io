@@ -4,8 +4,6 @@ date: 2019-09-23 13:59:00
 tags: 
 - docker
 - Ubuntu
-intro: ''
-
 ---
 
 

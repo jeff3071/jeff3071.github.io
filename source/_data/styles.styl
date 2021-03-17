@@ -1,0 +1,127 @@
+//自定義NOTE
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-success {
+    color: #468847;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.alert-info {
+    color: #3a87ad;
+    background-color: #e2eaee;
+    border-color: #c5d5dd;
+}
+.alert-warning {
+    color: #c09853;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+.alert-danger {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+// 文章内鏈接文本樣式
+.post-body p a{
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1px solid #0593d3;
+  &:hover {
+    color: #fc6423;
+    border-bottom: none;
+    border-bottom: 1px solid #fc6423;
+  }
+}
+
+// mac panel
+
+.highlight-wrap[data-rel] {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.4);
+  margin: 35px 0;
+  ::-webkit-scrollbar {
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+  &::before {
+    color: white;
+    content: attr(data-rel);
+    height: 38px;
+    line-height: 38px;
+    background: #21252b;
+    color: #fff;
+    font-size: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: bold;
+    padding: 0px 80px;
+    text-indent: 15px;
+    float: left;
+  }
+  &::after {
+    content: ' ';
+    position: absolute;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #fc625d;
+    width: 12px;
+    height: 12px;
+    top: 0;
+    left: 20px;
+    margin-top: 13px;
+    -webkit-box-shadow: 20px 0px #fdbc40, 40px 0px #35cd4b;
+    box-shadow: 20px 0px #fdbc40, 40px 0px #35cd4b;
+    z-index: 3;
+  }
+}
+
+// Custom styles.
+code {
+    color: #c7254e; //文字顏色
+    background: #f9f2f4; //底色
+    margin: 2px;
+}
+// 邊框的自定義樣式
+.highlight, pre {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 3px;
+}
+.highlight, code, pre {
+    border: 1px solid #d6d6d6;
+}
+
+/*去掉圖片邊框*/
+.posts-expand .post-body img{
+    border: 0px;
+}
+
+// 修改選中文字底色
+/* webkit, opera, IE9 */
+::selection { 
+    background: #00c4b6;
+    color: #f7f7f7; 
+}
+/* firefox */
+::-moz-selection { 
+    background: #00c4b6;
+    color: #f7f7f7;    
+}
