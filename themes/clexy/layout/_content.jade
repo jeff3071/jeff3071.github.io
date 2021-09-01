@@ -1,0 +1,149 @@
+//- index page
+if is_home()
+  h4.page-title Recent Articles
+  each post in site.posts.sort('date', 'desc').toArray()
+    a.article(href= config.root + post.path)
+      article.item(itemscope, itemprop='blogPost', itemtype='https://schema.org/BlogPosting')
+        h2(itemprop='headline')= post.title
+        span.post-meta
+        //-  | Published on
+          time(itemprop='datePublished', datetime= post.date.toISOString())= full_date(new Date(post.date), ' dddd, MMMM Do YYYY')
+        p(itemprop='text').post-excerpt= post.intro ? post.intro : post.content.replace(/<(?:.|\n)*?>/gm, '').substr(0, 220)
+
+//- articles page
+if is_archive() || (is_page() && page.title.toLowerCase() == 'articles')
+  article.full
+    h1(itemprop='headline')= page.title
+    != page.content
+    - var lastyear = 0
+    for post, index in site.posts.sort('date', 'desc').toArray()
+      if lastyear != post.date.format('YYYY')
+        if index != 0
+          | </ul>
+        - lastyear = post.date.format('YYYY')
+        h4= lastyear
+        | <ul>
+        li(itemprop='name')
+          a(href= config.root + post.path, itemprop='url') #{post.title}
+          if(post.tags.data !== undefined && post.tags.data.length > 0)
+            |  &nbsp; &mdash; &nbsp;&nbsp;
+            for tag in post.tags.data
+              a(href= config.root + 'tags/' + tag.name, itemprop='url') #{'#'+tag.name}
+              | &nbsp;&nbsp;
+          //- time(itemprop='datePublished', datetime= post.date.toISOString())= full_date(new Date(post.date), ' MMMM Do')
+      else
+        li
+          a(href= config.root + post.path) #{post.title}
+          if(post.tags.data !== undefined && post.tags.data.length > 0)
+            |  &nbsp; &mdash; &nbsp;&nbsp;
+            for tag in post.tags.data
+              a(href= config.root + 'tags/' + tag.name, itemprop='url') #{'#'+tag.name}
+              | &nbsp;&nbsp;
+          //-time(itemprop='datePublished', datetime= post.date.toISOString())= full_date(new Date(post.date), ' MMMM Do')
+    if site.posts.toArray().length != 0
+      | </ul>
+else if is_page() && page.title.toLowerCase() == 'author'
+  article.full
+    h1(itemprop='headline')= page.title
+    .avatar
+    if(config.about !== undefined)
+      .avatar-name
+        | #{config.about.name}
+      .avatar-description
+        | #{config.about.intro1}
+      if (config.about.intro2 != undefined)
+        .avatar-description
+          | #{config.about.intro2}
+      script(src="//use.fontawesome.com/d58379a62c.js")
+      br
+      .social-container
+        if(config.about.linkedin !== undefined)
+          a(target="_blank",href=config.about.linkedin)
+            span(class="fa fa-linkedin icons" aria-hidden="true")
+        if(config.about.facebook !== undefined)
+          a(target="_blank",href=config.about.facebook)
+            span(class="fa fa-facebook icons" aria-hidden="true")
+        if(config.about.twitter !== undefined)
+          a(target="_blank",href=config.about.twitter)
+            span(class="fa fa-twitter icons" aria-hidden="true")
+        if(config.about.instagram !== undefined)
+          a(target="_blank",href=config.about.instagram)
+            span(class="fa fa-instagram icons" aria-hidden="true")
+        if(config.about.email !== undefined)
+          a(href="mailto:"+ config.about.email)
+            span(class="fa fa-envelope icons" aria-hidden="true")
+        if(config.about.github !== undefined)
+          a(target="_blank",href=config.about.github)
+            span(class="fa fa-github icons" aria-hidden="true")
+        if(config.about.stackoverflow !== undefined)
+          a(target="_blank",href=config.about.stackoverflow)
+            span(class="fa fa-stack-overflow icons" aria-hidden="true")
+        if(config.about.sourceforge !== undefined)
+          a(target="_blank",href=config.about.sourceforge)
+            span(class="fa fa-noicon icons no-icons" aria-hidden="true") sf
+else if is_page()
+  article.full
+    br
+    br
+    br
+    br
+    h3= "Some Error occured. Go Home."
+    if page.updated
+      span.post-meta
+    != page.content
+    a(href= config.root, itemprop='url')
+      h3= 'Click Here'
+else if is_post()
+  article.full
+    h1(itemprop='headline', class='post-heading')= page.title
+    for tag in page.tags.data
+      span(class='page-tag-anchor')
+        a(href= config.root + 'tags/' + tag.name, itemprop='url') #{'#'+tag.name}
+            | &nbsp;&nbsp;
+    span.post-meta
+     //- if page.updated
+        br
+        | Last updated on
+        time(itemprop='dateModified', datetime= page.date.toISOString())= full_date(new Date(page.updated), ' dddd, MMMM Do YYYY')
+    br
+    br
+    != page.content
+  br
+  br
+  if page.next
+    span(class='next-post')
+      a(href= config.root + page.next.path, itemprop='url') #{ 'Older Post ⇒'}
+  if page.prev
+    span(class='prev-post')
+      a(href= config.root + page.prev.path, itemprop='url') #{ '⇐ Next Post '}
+  br
+  include _comments
+  br
+  br
+else if is_tag()
+  article.full
+    h1(itemprop='headline')= 'tag : ' + page.tag
+    != page.content
+    - var lastyear = 0
+    - var tag_posts = site.tags.findOne({name: page.tag}).posts
+    for post, index in tag_posts.sort('date', 'desc').toArray()
+      if lastyear != post.date.format('YYYY')
+        if index != 0
+          | </ul>
+        - lastyear = post.date.format('YYYY')
+        h4= lastyear
+        | <ul>
+        li(itemprop='name')
+          a(href= config.root + post.path, itemprop='url') #{post.title}
+          |  &nbsp; &mdash; &nbsp;&nbsp;
+          for tag in post.tags.data
+            a(href= config.root + 'tags/' + tag.name, itemprop='url') #{'#'+tag.name}
+            | &nbsp;&nbsp;
+      else
+        li
+          a(href= config.root + post.path) #{post.title}
+          |  &nbsp; &mdash; &nbsp;&nbsp;
+          for tag in post.tags.data
+            a(href= config.root + 'tags/' + tag.name, itemprop='url') #{'#'+tag.name}
+            | &nbsp;&nbsp;
+    | </ul>
