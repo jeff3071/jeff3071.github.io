@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="Database System設計資料庫的階段(Phases for designing a database) Requirements specification and analysis  Conceptual design  Logical design Physical design">
+<meta name="keywords" content="database,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="資料庫理論">
+<meta property="og:url" content="http://yoursite.com/2020/08/10/資料庫理論/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Database System設計資料庫的階段(Phases for designing a database) Requirements specification and analysis  Conceptual design  Logical design Physical design">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://i.imgur.com/Id2bN5K.png">
+<meta property="og:image" content="https://i.imgur.com/ULEj9ei.png">
+<meta property="og:image" content="https://i.imgur.com/zbF9tmo.png">
+<meta property="og:image" content="https://i.imgur.com/Wk4O7rw.png">
+<meta property="og:image" content="https://i.imgur.com/IVhexH3.png">
+<meta property="og:updated_time" content="2021-09-01T15:20:39.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="資料庫理論">
+<meta name="twitter:description" content="Database System設計資料庫的階段(Phases for designing a database) Requirements specification and analysis  Conceptual design  Logical design Physical design">
+<meta name="twitter:image" content="https://i.imgur.com/Id2bN5K.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/10/資料庫理論/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>資料庫理論 | Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/資料庫理論/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jeff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          資料庫理論
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2020-08-10 19:59:13" itemprop="dateCreated datePublished" datetime="2020-08-10T19:59:13+08:00">2020-08-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-09-01 23:20:39" itemprop="dateModified" datetime="2021-09-01T23:20:39+08:00">2021-09-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/資料庫課程筆記/" itemprop="url" rel="index"><span itemprop="name">資料庫課程筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Database-System"><a href="#Database-System" class="headerlink" title="Database System"></a>Database System</h2><h3 id="設計資料庫的階段-Phases-for-designing-a-database"><a href="#設計資料庫的階段-Phases-for-designing-a-database" class="headerlink" title="設計資料庫的階段(Phases for designing a database)"></a>設計資料庫的階段(Phases for designing a database)</h3><ul>
+<li>Requirements specification and analysis </li>
+<li>Conceptual design </li>
+<li>Logical design</li>
+<li>Physical design </li>
+</ul>
+<a id="more"></a>
+
+<h3 id="Database-System要素"><a href="#Database-System要素" class="headerlink" title="Database System要素"></a>Database System要素</h3><ul>
+<li>meta-data<ul>
+<li>描述database的結構</li>
+</ul>
+</li>
+<li>database catalog<ul>
+<li>DBMS使用</li>
+<li>給需要了解結構的user使用</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/Id2bN5K.png" alt></p>
+<p>Program-data independence<br>資料檔案的結構儲存在DBMS目錄裡和存取程式是隔離的</p>
+<h3 id="data-abstraction-資料抽象化"><a href="#data-abstraction-資料抽象化" class="headerlink" title="data  abstraction(資料抽象化)"></a>data  abstraction(資料抽象化)</h3><ul>
+<li>Conceptual representation <ul>
+<li>不包括資料是如何儲存的細節或是操作是如何實作出來的</li>
+</ul>
+</li>
+<li>Data model<ul>
+<li>Type of data abstraction used to provide conceptual representation</li>
+<li>提供conceptual representation的資料抽象化型態</li>
+</ul>
+</li>
+</ul>
+<h3 id="Sharing-of-Data-and-Multiuser-Transaction-Processing-資料分享與多使用者交易處理"><a href="#Sharing-of-Data-and-Multiuser-Transaction-Processing-資料分享與多使用者交易處理" class="headerlink" title="Sharing of Data and Multiuser Transaction Processing(資料分享與多使用者交易處理)"></a>Sharing of Data and Multiuser Transaction Processing(資料分享與多使用者交易處理)</h3><p>允許多個使用者在同一時間連線到database</p>
+<p><strong>Concurrency control software</strong><br>確保數個使用者想要更新同一數據時，可以受到控制<br>ex. 售票員</p>
+<h3 id="Database-administrators-DBA"><a href="#Database-administrators-DBA" class="headerlink" title="Database administrators(DBA)"></a>Database administrators(DBA)</h3><ul>
+<li>授權存取資料庫</li>
+<li>監督資料庫的使用</li>
+<li>負責需要的軟硬體資源</li>
+</ul>
+<h3 id="Database-designers"><a href="#Database-designers" class="headerlink" title="Database designers"></a>Database designers</h3><ul>
+<li>識別要存取在資料庫的資料</li>
+<li>選擇合適的結構來儲存</li>
+</ul>
+<h3 id="End-users"><a href="#End-users" class="headerlink" title="End users"></a>End users</h3><ul>
+<li>需要連接到資料庫的人 </li>
+</ul>
+<p><a href="http://epaper.gotop.com.tw/pdf/AEE003700.pdf" target="_blank" rel="noopener">參考資料</a></p>
+<h2 id="Database-Languages-and-Architectures"><a href="#Database-Languages-and-Architectures" class="headerlink" title="Database Languages and Architectures"></a>Database Languages and Architectures</h2><h3 id="Schemas-Instances-and-Database-State"><a href="#Schemas-Instances-and-Database-State" class="headerlink" title="Schemas, Instances, and Database State"></a>Schemas, Instances, and Database State</h3><ul>
+<li>Database schema<ul>
+<li>database的描述</li>
+</ul>
+</li>
+<li>Dchema diagram<ul>
+<li>呈現選取的schema</li>
+</ul>
+</li>
+<li>Schema construct<ul>
+<li>每個在schema的Object</li>
+</ul>
+</li>
+<li>Database state<ul>
+<li>Database中特定時間的Data</li>
+</ul>
+</li>
+</ul>
+<h3 id="three-Schema-Architecture"><a href="#three-Schema-Architecture" class="headerlink" title="three-Schema Architecture"></a>three-Schema Architecture</h3><ul>
+<li>外部層(External Level)<ul>
+<li>描述資料庫的部分資料</li>
+<li>負責不同使用者所需要觀看的部分資料，而將資料庫的其他部分隱藏起來</li>
+</ul>
+</li>
+<li>概念層(Conceptual Level)<ul>
+<li>描述整個資料庫的結構</li>
+<li>是以DBA觀點所看到的完整資料庫系統</li>
+</ul>
+</li>
+<li>內部層(Internal Level)<ul>
+<li>描述架構中的有關資料庫實際的儲存與存取路徑的完整資訊</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/ULEj9ei.png" alt></p>
+<p><a href="https://myweb.ntut.edu.tw/~ycchu/DB/db-1.pdf" target="_blank" rel="noopener">補充</a></p>
+<p>目的是達到Data independence</p>
+<p>:::info<br><strong>Data Independence</strong><br>上下層並不會互相影響<br>:::</p>
+<p>而Data independence分為兩種</p>
+<ul>
+<li>Logical : 外部與概念對應，當Conceptual schema更改時，只要更改兩層之間的映對，而不需要直接更改其他層的Schema</li>
+<li>Physical : 概念與內部對應，當Internal schema更改時，只要更改Internal schema與conceptual schema的映對，而不需要更改Conceptual schema或External schema</li>
+</ul>
+<p><a href="http://faculty.stust.edu.tw/~jehuang/oracle/ch1/1-2.htm" target="_blank" rel="noopener">更詳細的說明</a></p>
+<h3 id="DBMS-language"><a href="#DBMS-language" class="headerlink" title="DBMS language"></a>DBMS language</h3><ul>
+<li>Data definition language(DDL, 資料定義語言)<ul>
+<li>定義schemas(Conceptual schema, Internal schema)</li>
+</ul>
+</li>
+<li>Storage definition language(SDL, 儲存定義語言)<ul>
+<li>明確定義internal schema</li>
+</ul>
+</li>
+<li>View definition language(VDL, 視野定義語言)<ul>
+<li>根據Conceptual schema 定義user views/mapping</li>
+</ul>
+</li>
+<li>Data manipulation language(DML, 資料操縱語言)<ul>
+<li>允許retrieval,insertion,deletion,modification</li>
+<li>High-level DML<ul>
+<li>高階DML為集合導向的(set-oriented)</li>
+</ul>
+</li>
+<li>Low-level DML<ul>
+<li>低階DML為一次一筆紀錄(record-at-a-time)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="DBMS要素"><a href="#DBMS要素" class="headerlink" title="DBMS要素"></a>DBMS要素</h3><ul>
+<li>Buffer management</li>
+<li>Stored data manager</li>
+<li>DDL compiler</li>
+<li>Interactive query interface</li>
+<li>Precompiler</li>
+<li>Runtime database processor</li>
+<li>System catalog</li>
+<li>Comcurrency control system</li>
+<li>Backup and recovery system</li>
+</ul>
+<p><img src="https://i.imgur.com/zbF9tmo.png" alt></p>
+<p>必須要有以下功能</p>
+<ul>
+<li>Loading(載入)</li>
+<li>Backup(備份)</li>
+<li>Database storage reorganization(重組檔案)</li>
+<li>Performance monitoring(效能監控)</li>
+</ul>
+<h3 id="兩層式C-S架構"><a href="#兩層式C-S架構" class="headerlink" title="兩層式C/S架構"></a>兩層式C/S架構</h3><ul>
+<li>Server handles<ul>
+<li>Query and transaction functionality related to SQL processing </li>
+</ul>
+</li>
+<li>Client handles<ul>
+<li>使用者介面或是程式</li>
+</ul>
+</li>
+</ul>
+<p>在兩層之間的介面稱為ODBC，是一種API使用戶端程式可以呼叫DBMS</p>
+<h3 id="三層式C-S架構"><a href="#三層式C-S架構" class="headerlink" title="三層式C/S架構"></a>三層式C/S架構</h3><p>在Web server常見</p>
+<p>會在Client和databese server中間加入intermediate layer，扮演在資料庫伺服器與用戶端之間傳送資料的中間角色</p>
+<p><img src="https://i.imgur.com/Wk4O7rw.png" alt></p>
+<h3 id="DBMS分類"><a href="#DBMS分類" class="headerlink" title="DBMS分類"></a>DBMS分類</h3><ul>
+<li>Data model<ul>
+<li>Relational</li>
+<li>object</li>
+<li>Hierarchical and network(網路)</li>
+<li>native XML DBMS</li>
+</ul>
+</li>
+<li>User<ul>
+<li>單一使用者</li>
+<li>多使用者</li>
+</ul>
+</li>
+<li>Number of sites<ul>
+<li>集中式</li>
+<li>分散式</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://www.lis.ntu.edu.tw/~khchen/course/db/db2007/DBCh02DBMS.pdf" target="_blank" rel="noopener">補充</a></p>
+<h2 id="The-basic-relational-model"><a href="#The-basic-relational-model" class="headerlink" title="The basic relational model"></a>The basic relational model</h2><h3 id="Relational-Model-Concepts"><a href="#Relational-Model-Concepts" class="headerlink" title="Relational Model Concepts"></a>Relational Model Concepts</h3><p>資料庫為多個集合的關聯<br><img src="https://i.imgur.com/IVhexH3.png" alt></p>
+<p>名稱對應</p>
+<table>
+<thead>
+<tr>
+<th>理論</th>
+<th>實務</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Relation</td>
+<td>Table</td>
+</tr>
+<tr>
+<td>Tuple</td>
+<td>Row</td>
+</tr>
+<tr>
+<td>Attribute</td>
+<td>Column</td>
+</tr>
+</tbody></table>
+<p>Domain為無法分割值的集合<br>(可稱為定義域)</p>
+<ul>
+<li><p>relation(relaiton state)</p>
+<ul>
+<li>n-tuple的集合，可表示成 $r = { t_1, t_2,…,t_m}$</li>
+<li>每個n-tuple t<ul>
+<li>為有n個值的list</li>
+<li>每個 $v_i, 1\leq i \leq n$ 是 $dom(A_i)$中的一個元素或是<code>NULL</code>值</li>
+</ul>
+</li>
+<li>Degree of relation<ul>
+<li>relation schema中attribute的數目</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Cardinality</p>
+<ul>
+<li>domain中值的數目<h3 id="Characteristics-of-Relations（關聯的特性）"><a href="#Characteristics-of-Relations（關聯的特性）" class="headerlink" title="Characteristics of Relations（關聯的特性）"></a>Characteristics of Relations（關聯的特性）</h3></li>
+</ul>
+</li>
+<li><p>Relation 中的 tuple沒有順序</p>
+</li>
+<li><p>tuple中的值</p>
+<ul>
+<li>每個tuple的值都是atomic</li>
+<li>Flat relation model<ul>
+<li>Composite and multivalued attributes not allowed</li>
+<li>First normal form 假設<ul>
+<li><a href="https://hackmd.io/@TSMI_E7ORNeP8YBbWm-lFA/rykcj8kmM?type=view" target="_blank" rel="noopener">補充-第一正規化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>NULL值</p>
+<ul>
+<li>表示為unknown或是不能用tuple表示</li>
+<li>可能情況<ul>
+<li>未知值</li>
+<li>值存在但不可用</li>
+<li>這個attribute不能表示tuple</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Relation model 符號</p>
+<ul>
+<li>Relation schema R of degree n<ul>
+<li>表示為$R(A_1,A_2,…A_n)$</li>
+</ul>
+</li>
+<li>大寫的 $Q,R,S$<ul>
+<li>表示relation name</li>
+</ul>
+</li>
+<li>小寫的 $q,r,s$<ul>
+<li>表示relation state</li>
+</ul>
+</li>
+<li>$t,u,v$<ul>
+<li>表示tuple</li>
+</ul>
+</li>
+</ul>
+<h3 id="Relation-model-限制"><a href="#Relation-model-限制" class="headerlink" title="Relation model 限制"></a>Relation model 限制</h3><ul>
+<li>Entity integrity constraint<ul>
+<li>Primary key不可為NULL</li>
+</ul>
+</li>
+<li>Key Constraints<ul>
+<li>super key 超鍵<ul>
+<li>符合唯一性的key</li>
+</ul>
+</li>
+<li>Candidate key 候選鍵<ul>
+<li>符合唯一性以及最小性的key</li>
+</ul>
+</li>
+<li>Primary key 主鍵<ul>
+<li>從Candidate key中選出來</li>
+<li>最具識別意義的屬性</li>
+<li>不可為空</li>
+</ul>
+</li>
+<li>Alternate Key 次要鍵<ul>
+<li>沒有被選為主鍵的其他Candidate key</li>
+</ul>
+</li>
+<li>Foreign Key 外鍵<ul>
+<li>Relation中被用來參考到其他表格Primary key的key，就是Foreign key</li>
+<li>必須和Primary key有相同的domain</li>
+<li>Foreign key 的值必須存在於Primary key的值=&gt;<a href="https://www.mysql.tw/2017/04/blog-post.html" target="_blank" rel="noopener">參考完整性 (Referential Integrity)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>State constraints<ul>
+<li>Define the constraints that a valid state of the database must satisfy</li>
+</ul>
+</li>
+<li>Transition constraints<ul>
+<li>Define to deal with state changes in the database</li>
+</ul>
+</li>
+</ul>
+<p>操作種類</p>
+<ul>
+<li>Insert<ul>
+<li>可以打破上面四個限制</li>
+<li>如果打破了任何一個限制，一般而言會拒絕</li>
+</ul>
+</li>
+<li>Delete<ul>
+<li>只能打破referential integrity</li>
+</ul>
+</li>
+<li>Update</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/database/" rel="tag"># database</a>
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/18/Cos相似度實作/" rel="prev" title="Cos相似度實作">
+      <i class="fa fa-chevron-left"></i> Cos相似度實作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/24/資料庫-實作/" rel="next" title="資料庫實作">
+      資料庫實作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Database-System"><span class="nav-number">1.</span> <span class="nav-text">Database System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#設計資料庫的階段-Phases-for-designing-a-database"><span class="nav-number">1.1.</span> <span class="nav-text">設計資料庫的階段(Phases for designing a database)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Database-System要素"><span class="nav-number">1.2.</span> <span class="nav-text">Database System要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-abstraction-資料抽象化"><span class="nav-number">1.3.</span> <span class="nav-text">data  abstraction(資料抽象化)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sharing-of-Data-and-Multiuser-Transaction-Processing-資料分享與多使用者交易處理"><span class="nav-number">1.4.</span> <span class="nav-text">Sharing of Data and Multiuser Transaction Processing(資料分享與多使用者交易處理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Database-administrators-DBA"><span class="nav-number">1.5.</span> <span class="nav-text">Database administrators(DBA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Database-designers"><span class="nav-number">1.6.</span> <span class="nav-text">Database designers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#End-users"><span class="nav-number">1.7.</span> <span class="nav-text">End users</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Database-Languages-and-Architectures"><span class="nav-number">2.</span> <span class="nav-text">Database Languages and Architectures</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Schemas-Instances-and-Database-State"><span class="nav-number">2.1.</span> <span class="nav-text">Schemas, Instances, and Database State</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#three-Schema-Architecture"><span class="nav-number">2.2.</span> <span class="nav-text">three-Schema Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-language"><span class="nav-number">2.3.</span> <span class="nav-text">DBMS language</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS要素"><span class="nav-number">2.4.</span> <span class="nav-text">DBMS要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兩層式C-S架構"><span class="nav-number">2.5.</span> <span class="nav-text">兩層式C/S架構</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三層式C-S架構"><span class="nav-number">2.6.</span> <span class="nav-text">三層式C/S架構</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS分類"><span class="nav-number">2.7.</span> <span class="nav-text">DBMS分類</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-basic-relational-model"><span class="nav-number">3.</span> <span class="nav-text">The basic relational model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Relational-Model-Concepts"><span class="nav-number">3.1.</span> <span class="nav-text">Relational Model Concepts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Characteristics-of-Relations（關聯的特性）"><span class="nav-number">3.2.</span> <span class="nav-text">Characteristics of Relations（關聯的特性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Relation-model-限制"><span class="nav-number">3.3.</span> <span class="nav-text">Relation model 限制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jeff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeff</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : ,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

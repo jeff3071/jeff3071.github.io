@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="正規化消除資料間的依賴性，而使得資料庫檔案內的資料欄位分配合理化，確定哪些資料欄位該在同一檔案內，哪些欄位又該分開在不同檔案內，使資料不重複。 解決在資料更新、增刪時所衍生之問題。 比較常見的有  第一正規式 第二正規式 第三正規式 BC正規式">
+<meta name="keywords" content="database,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="資料庫邏輯設計">
+<meta property="og:url" content="http://yoursite.com/2021/01/27/資料庫邏輯設計/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="正規化消除資料間的依賴性，而使得資料庫檔案內的資料欄位分配合理化，確定哪些資料欄位該在同一檔案內，哪些欄位又該分開在不同檔案內，使資料不重複。 解決在資料更新、增刪時所衍生之問題。 比較常見的有  第一正規式 第二正規式 第三正規式 BC正規式">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://i.imgur.com/jl4ilRW.png">
+<meta property="og:updated_time" content="2021-09-01T15:20:39.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="資料庫邏輯設計">
+<meta name="twitter:description" content="正規化消除資料間的依賴性，而使得資料庫檔案內的資料欄位分配合理化，確定哪些資料欄位該在同一檔案內，哪些欄位又該分開在不同檔案內，使資料不重複。 解決在資料更新、增刪時所衍生之問題。 比較常見的有  第一正規式 第二正規式 第三正規式 BC正規式">
+<meta name="twitter:image" content="https://i.imgur.com/jl4ilRW.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/01/27/資料庫邏輯設計/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>資料庫邏輯設計 | Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/27/資料庫邏輯設計/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jeff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          資料庫邏輯設計
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2021-01-27 20:25:48" itemprop="dateCreated datePublished" datetime="2021-01-27T20:25:48+08:00">2021-01-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-09-01 23:20:39" itemprop="dateModified" datetime="2021-09-01T23:20:39+08:00">2021-09-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/資料庫課程筆記/" itemprop="url" rel="index"><span itemprop="name">資料庫課程筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="正規化"><a href="#正規化" class="headerlink" title="正規化"></a>正規化</h2><p>消除資料間的依賴性，而使得資料庫檔案內的資料欄位分配合理化，確定哪些資料欄位該在同一檔案內，哪些欄位又該分開在不同檔案內，使資料不重複。</p>
+<p>解決在資料更新、增刪時所衍生之問題。</p>
+<p>比較常見的有</p>
+<ul>
+<li>第一正規式</li>
+<li>第二正規式</li>
+<li>第三正規式</li>
+<li>BC正規式<a id="more"></a>
+
+</li>
+</ul>
+<h3 id="依賴性"><a href="#依賴性" class="headerlink" title="依賴性"></a>依賴性</h3><p>在一檔案中，若B欄位對A欄位依賴，則表示B欄位的值可由A欄位的值唯一決定，以A $\rightarrow$ B表示。</p>
+<ul>
+<li>全依賴 : 主鍵由多個欄位組合而成，若某非主鍵欄位依賴主鍵之全部時，則稱該欄位<strong>全依賴</strong>於主鍵。</li>
+<li>部分依賴 : 主鍵由多個欄位組合而成，若某非主鍵欄位依賴主鍵之部分時，則稱該欄位<strong>部分依賴</strong>於主鍵。</li>
+<li>遞移依賴 : 若一檔案中的A、B、C三欄位，形成B依賴A，C依賴B，C也依賴A，即稱為遞移依賴。</li>
+</ul>
+<h3 id="第一正規化"><a href="#第一正規化" class="headerlink" title="第一正規化"></a>第一正規化</h3><p>沒有重複群組(repeating group)的檔案即為第一正規式。<br>重複群組之意為某一或多個欄位儲存於一個以上的資料值。</p>
+<h4 id="沒有第一正規化會衍生出的問題"><a href="#沒有第一正規化會衍生出的問題" class="headerlink" title="沒有第一正規化會衍生出的問題"></a>沒有第一正規化會衍生出的問題</h4><ul>
+<li><p>新增記錄時<br>當有一新人加入時，但未有任何經歷時，將造成資料記錄不完整，若資料已存在造成資料重複。</p>
+</li>
+<li><p>更新資料時<br>所某人有多種經歷，則有多筆記錄在檔案中，每筆記錄均含有此人之身分證字號、姓名、居住地等資料，此人若有資料異動，則必須更動多筆資料。如此不僅浪費空間，而且更新時亦浪費時間</p>
+</li>
+<li><p>刪除記錄時<br>若某人有多種經歷，則有多筆紀錄在檔案中，若我們要刪除此人的資料，則必須刪除多筆</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>轉成第一正規化的方法</strong><br>去除重複群組的欄位<br>並將主鍵與重複群組建為一組</p>
+</blockquote>
+<h3 id="第二正規化"><a href="#第二正規化" class="headerlink" title="第二正規化"></a>第二正規化</h3><p>必為第一正規式<br>所有非主鍵欄位均對主鍵全依賴。</p>
+<p><img src="https://i.imgur.com/jl4ilRW.png" alt></p>
+<h4 id="沒有第二正規化會衍生出的問題"><a href="#沒有第二正規化會衍生出的問題" class="headerlink" title="沒有第二正規化會衍生出的問題"></a>沒有第二正規化會衍生出的問題</h4><ul>
+<li><p>新增記錄時<br>當有一新供應商設立，但未供應任何零件時，我們無法將其名稱和基本資料鍵入檔案中，因主鍵中只有供應商代號而無零件代號，主鍵不完全的紀錄無存在的意義。</p>
+</li>
+<li><p>更新資料時<br>若某一供應商供應多種零件，則有多筆資料在檔案中，每筆紀錄均含有此時供應商名稱和基本資料，此時若該供應商的基本資料有異動，則有多筆資料需更新。如此不僅重複儲存浪費空間，而更新時亦浪費時間。</p>
+</li>
+<li><p>刪除記錄時<br>當某一供應商僅供應一種零件時，則僅有一筆紀錄在檔案中，此時若該供應商不供應該零件了，我們勢必要刪除此記錄，但這個動作將連結供應商名稱和基本資料一併刪除，這可能不是我們要的結果。</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>轉成第二正規化的方法</strong><br>把部分依賴的欄位及他依賴的主鍵另建一組<br>原來的檔案只保留全依賴的欄位和主鍵</p>
+</blockquote>
+<h3 id="第三正規化"><a href="#第三正規化" class="headerlink" title="第三正規化"></a>第三正規化</h3><p>必為第二正規式<br>去除遞移依賴</p>
+<h4 id="沒有第三正規化會衍生出的問題"><a href="#沒有第三正規化會衍生出的問題" class="headerlink" title="沒有第三正規化會衍生出的問題"></a>沒有第三正規化會衍生出的問題</h4><ul>
+<li><p>新增記錄時<br>當學校新聘一位教師，但該教師未正式授課時，我們無法新增教師的資料，因主鍵為空白的紀錄無存在的意義。</p>
+</li>
+<li><p>更新資料時<br>若某一教師教授多門課時，則有多筆記錄在檔案中，每筆記錄均含有教師住所資料，此時若該教師住所資料有異動，則有多筆紀錄紀錄需更新，如此不僅重複儲存浪費空間，而更新時亦浪費時間。</p>
+</li>
+<li><p>刪除記錄時<br>當某教師僅教授一門課時，則僅有一筆紀錄在檔案中，此時若該門課停開，勢必刪除此記錄，但這個動作將連教師住所資料一併刪除。</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>轉成第三正規化的方法</strong><br>把遞移依賴的欄位和其所依賴的主鍵欄位另組一檔，保留非遞移依賴的欄位和主鍵。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/database/" rel="tag"># database</a>
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/24/資料庫-實作/" rel="prev" title="資料庫實作">
+      <i class="fa fa-chevron-left"></i> 資料庫實作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/03/Python-爬蟲/" rel="next" title="[Python]爬蟲">
+      [Python]爬蟲 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正規化"><span class="nav-number">1.</span> <span class="nav-text">正規化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#依賴性"><span class="nav-number">1.1.</span> <span class="nav-text">依賴性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一正規化"><span class="nav-number">1.2.</span> <span class="nav-text">第一正規化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#沒有第一正規化會衍生出的問題"><span class="nav-number">1.2.1.</span> <span class="nav-text">沒有第一正規化會衍生出的問題</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二正規化"><span class="nav-number">1.3.</span> <span class="nav-text">第二正規化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#沒有第二正規化會衍生出的問題"><span class="nav-number">1.3.1.</span> <span class="nav-text">沒有第二正規化會衍生出的問題</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三正規化"><span class="nav-number">1.4.</span> <span class="nav-text">第三正規化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#沒有第三正規化會衍生出的問題"><span class="nav-number">1.4.1.</span> <span class="nav-text">沒有第三正規化會衍生出的問題</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jeff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeff</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : ,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
