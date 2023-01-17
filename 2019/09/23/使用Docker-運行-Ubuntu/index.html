@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,20 +20,31 @@
     var CONFIG = {"hostname":"jeff3071.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /b">
-<meta name="keywords" content="docker,Ubuntu">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PW29Q66X7S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PW29Q66X7S');
+</script>
+
+  <meta name="description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 &amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Docker 運行 Ubuntu">
-<meta property="og:url" content="https://jeff3071.github.io/2019/09/23/使用Docker-運行-Ubuntu/index.html">
+<meta property="og:url" content="https://jeff3071.github.io/2019/09/23/%E4%BD%BF%E7%94%A8Docker-%E9%81%8B%E8%A1%8C-Ubuntu/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /b">
-<meta property="og:locale" content="zh-TW">
-<meta property="og:updated_time" content="2021-09-01T15:20:39.793Z">
+<meta property="og:description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 &amp;#">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-09-23T05:59:00.000Z">
+<meta property="article:modified_time" content="2021-09-01T15:20:39.793Z">
+<meta property="article:author" content="Jeff">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="Ubuntu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Docker 運行 Ubuntu">
-<meta name="twitter:description" content="1環境：macOS  建立Container$ docker run --name MyUbuntu -dt ubuntu docker run會由image建立contaniner 參數定義  --name: 命名container，上面那行指令我們將container命名成MyUbuntu，若省略，會隨機命名 -d：建立 container 後，就脫離目前 process -t：預設執行 /b">
 
-<link rel="canonical" href="https://jeff3071.github.io/2019/09/23/使用Docker-運行-Ubuntu/">
+<link rel="canonical" href="https://jeff3071.github.io/2019/09/23/%E4%BD%BF%E7%94%A8Docker-%E9%81%8B%E8%A1%8C-Ubuntu/">
 
 
 <script id="page-configurations">
@@ -48,6 +59,15 @@
 
   <title>使用Docker 運行 Ubuntu | Blog</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PW29Q66X7S"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PW29Q66X7S');
+      }
+    </script>
 
 
 
@@ -190,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://jeff3071.github.io/2019/09/23/使用Docker-運行-Ubuntu/">
+    <link itemprop="mainEntityOfPage" href="https://jeff3071.github.io/2019/09/23/%E4%BD%BF%E7%94%A8Docker-%E9%81%8B%E8%A1%8C-Ubuntu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -234,7 +254,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">環境：macOS</span><br></pre></td></tr></table></figure>
+        <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">環境：macOS</span><br></pre></td></tr></table></figure>
 
 <h2 id="建立Container"><a href="#建立Container" class="headerlink" title="建立Container"></a>建立Container</h2><p><code>$ docker run --name MyUbuntu -dt ubuntu</code></p>
 <p><code>docker run</code>會由image建立contaniner</p>
@@ -242,10 +262,10 @@
 <ul>
 <li><code>--name</code>: 命名container，上面那行指令我們將container命名成<code>MyUbuntu</code>，若省略，會隨機命名</li>
 <li><code>-d</code>：建立 container 後，就脫離目前 process</li>
-<li><code>-t</code>：預設執行 /bin/bash process，為了讓 container 啟動後不會立即停止</li>
+<li><code>-t</code>：預設執行 &#x2F;bin&#x2F;bash process，為了讓 container 啟動後不會立即停止</li>
 <li>ubuntu：官方image名字</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 <p><strong>一個container一個process</strong></p>
 <p>而process執行完container會自動釋放<br>因此加上<code>-t</code>使container執行<code>bash</code>，讓container不會自動釋放</p>
 <h2 id="進入Ubuntu"><a href="#進入Ubuntu" class="headerlink" title="進入Ubuntu"></a>進入Ubuntu</h2><p><code>$ docker exec -it MyUbuntu bash</code></p>
@@ -281,7 +301,7 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/01/18/Cos相似度實作/" rel="next" title="Cos相似度實作">
+    <a href="/2020/01/18/Cos%E7%9B%B8%E4%BC%BC%E5%BA%A6%E5%AF%A6%E4%BD%9C/" rel="next" title="Cos相似度實作">
       Cos相似度實作 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -342,7 +362,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立Container"><span class="nav-number">1.</span> <span class="nav-text">建立Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進入Ubuntu"><span class="nav-number">2.</span> <span class="nav-text">進入Ubuntu</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8BContainer"><span class="nav-number">1.</span> <span class="nav-text">建立Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E5%85%A5Ubuntu"><span class="nav-number">2.</span> <span class="nav-text">進入Ubuntu</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -396,7 +416,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -419,9 +439,15 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+
 <script src="/js/utils.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -450,7 +476,9 @@
   }
   </script>
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

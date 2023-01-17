@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,22 +20,35 @@
     var CONFIG = {"hostname":"jeff3071.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PW29Q66X7S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PW29Q66X7S');
+</script>
+
   <meta name="description" content="前言這篇文章主要是記錄我的學習歷程，以棒球為主題搭建一個數據查詢的網站，從取得資料到架設網站，過程會使用Python來爬取及架設網站。">
-<meta name="keywords" content="Python,棒球分析,中職,爬蟲">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Python]爬蟲">
-<meta property="og:url" content="https://jeff3071.github.io/2021/02/03/Python-爬蟲/index.html">
+<meta property="og:url" content="https://jeff3071.github.io/2021/02/03/Python-%E7%88%AC%E8%9F%B2/index.html">
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="前言這篇文章主要是記錄我的學習歷程，以棒球為主題搭建一個數據查詢的網站，從取得資料到架設網站，過程會使用Python來爬取及架設網站。">
-<meta property="og:locale" content="zh-TW">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://i.imgur.com/Lqt1zp4.png">
-<meta property="og:updated_time" content="2021-09-01T15:20:39.793Z">
+<meta property="article:published_time" content="2021-02-03T13:43:27.000Z">
+<meta property="article:modified_time" content="2021-09-01T15:20:39.793Z">
+<meta property="article:author" content="Jeff">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="棒球分析">
+<meta property="article:tag" content="中職">
+<meta property="article:tag" content="爬蟲">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[Python]爬蟲">
-<meta name="twitter:description" content="前言這篇文章主要是記錄我的學習歷程，以棒球為主題搭建一個數據查詢的網站，從取得資料到架設網站，過程會使用Python來爬取及架設網站。">
 <meta name="twitter:image" content="https://i.imgur.com/Lqt1zp4.png">
 
-<link rel="canonical" href="https://jeff3071.github.io/2021/02/03/Python-爬蟲/">
+<link rel="canonical" href="https://jeff3071.github.io/2021/02/03/Python-%E7%88%AC%E8%9F%B2/">
 
 
 <script id="page-configurations">
@@ -50,6 +63,15 @@
 
   <title>[Python]爬蟲 | Blog</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PW29Q66X7S"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PW29Q66X7S');
+      }
+    </script>
 
 
 
@@ -192,7 +214,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://jeff3071.github.io/2021/02/03/Python-爬蟲/">
+    <link itemprop="mainEntityOfPage" href="https://jeff3071.github.io/2021/02/03/Python-%E7%88%AC%E8%9F%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -230,7 +252,7 @@
               </span>
               <span class="post-meta-item-text">分類於</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/資料視覺化/" itemprop="url" rel="index"><span itemprop="name">資料視覺化</span></a>
+                  <a href="/categories/%E8%B3%87%E6%96%99%E8%A6%96%E8%A6%BA%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">資料視覺化</span></a>
                 </span>
             </span>
 
@@ -246,26 +268,25 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這篇文章主要是記錄我的學習歷程，以棒球為主題搭建一個數據查詢的網站，從取得資料到架設網站，過程會使用Python來爬取及架設網站。</p>
-<a id="more"></a>
+<span id="more"></span>
 <blockquote>
 <p>本系列是整理之前在鐵人賽的文章</p>
 </blockquote>
-<h2 id="取得數據"><a href="#取得數據" class="headerlink" title="取得數據"></a>取得數據</h2><p>數據的來源為中職的<a href="http://www.cpbl.com.tw/stats/all.html" target="_blank" rel="noopener">官網</a><br>但因為中職官網沒有進階數據如OPS+等，會從<a href="http://my.cpblstats.com/" target="_blank" rel="noopener">CPBL stat</a>來取得比較進階的數據</p>
+<h2 id="取得數據"><a href="#取得數據" class="headerlink" title="取得數據"></a>取得數據</h2><p>數據的來源為中職的<a target="_blank" rel="noopener" href="http://www.cpbl.com.tw/stats/all.html">官網</a><br>但因為中職官網沒有進階數據如OPS+等，會從<a target="_blank" rel="noopener" href="http://my.cpblstats.com/">CPBL stat</a>來取得比較進階的數據</p>
 <p>首先要做的是逐月分的表現，只有中職官網有數據，首先觀察球員個人頁面的url</p>
 <p>林安可頁面<br><code>http://www.cpbl.com.tw/player/apart.html?player_id=k429&amp;teamno=L01&amp;year=2020&amp;type=05</code></p>
 <p>蘇智傑頁面<br><code>http://www.cpbl.com.tw/player/apart.html?player_id=H594&amp;teamno=L01&amp;year=2020&amp;type=05</code></p>
 <p>比較一下發現type與year是不變的，剩下兩個就是需要的變數，必須想辦法取得player_id與teamno，回到全紀錄查詢，按下F12發現在&lt;td&gt;下的&lt;a&gt;可以取得，接著決定要如何儲存資料，而這邊決定用csv來儲存。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_all_player</span><span class="params">()</span>:</span></span><br><span class="line">    url = <span class="string">"http://www.cpbl.com.tw/stats/all.html?&amp;game_type=01&amp;&amp;stat=pbat&amp;year=2020&amp;online=1&amp;per_page="</span></span><br><span class="line"></span><br><span class="line">    fieldnames = [<span class="string">'Name'</span>,<span class="string">'ID'</span>,<span class="string">'Team ID'</span>]</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"player_ID.csv"</span>, <span class="string">'w'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)</span><br><span class="line">        writer.writeheader()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">            url = url</span><br><span class="line">            </span><br><span class="line">            print(<span class="string">"爬取"</span> + url + str(i+<span class="number">1</span>) + <span class="string">"中"</span>)</span><br><span class="line">            r = requests.get(url + str(i+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            soup = BeautifulSoup(r.text, <span class="string">'html.parser'</span>)</span><br><span class="line"></span><br><span class="line">            td = soup.select(<span class="string">"td a"</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(td)):</span><br><span class="line">                player_id = &#123;&#125;</span><br><span class="line">                temp = td[j][<span class="string">"href"</span>].split(<span class="string">"?"</span>)[<span class="number">1</span>].split(<span class="string">"&amp;"</span>)</span><br><span class="line">                player_id[<span class="string">'Name'</span>] = td[j].text.strip()</span><br><span class="line">                player_id[<span class="string">'ID'</span>] = temp[<span class="number">0</span>].split(<span class="string">"="</span>)[<span class="number">1</span>]</span><br><span class="line">                player_id[<span class="string">'Team ID'</span>] = temp[<span class="number">1</span>].split(<span class="string">"="</span>)[<span class="number">1</span>]</span><br><span class="line">                writer.writerow(player_id)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_all_player</span>():</span><br><span class="line">    url = <span class="string">&quot;http://www.cpbl.com.tw/stats/all.html?&amp;game_type=01&amp;&amp;stat=pbat&amp;year=2020&amp;online=1&amp;per_page=&quot;</span></span><br><span class="line"></span><br><span class="line">    fieldnames = [<span class="string">&#x27;Name&#x27;</span>,<span class="string">&#x27;ID&#x27;</span>,<span class="string">&#x27;Team ID&#x27;</span>]</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;player_ID.csv&quot;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)</span><br><span class="line">        writer.writeheader()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">            url = url</span><br><span class="line">            </span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;爬取&quot;</span> + url + <span class="built_in">str</span>(i+<span class="number">1</span>) + <span class="string">&quot;中&quot;</span>)</span><br><span class="line">            r = requests.get(url + <span class="built_in">str</span>(i+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            soup = BeautifulSoup(r.text, <span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line"></span><br><span class="line">            td = soup.select(<span class="string">&quot;td a&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(td)):</span><br><span class="line">                player_id = &#123;&#125;</span><br><span class="line">                temp = td[j][<span class="string">&quot;href&quot;</span>].split(<span class="string">&quot;?&quot;</span>)[<span class="number">1</span>].split(<span class="string">&quot;&amp;&quot;</span>)</span><br><span class="line">                player_id[<span class="string">&#x27;Name&#x27;</span>] = td[j].text.strip()</span><br><span class="line">                player_id[<span class="string">&#x27;ID&#x27;</span>] = temp[<span class="number">0</span>].split(<span class="string">&quot;=&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">                player_id[<span class="string">&#x27;Team ID&#x27;</span>] = temp[<span class="number">1</span>].split(<span class="string">&quot;=&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">                writer.writerow(player_id)</span><br></pre></td></tr></table></figure>
 
 <p>有了ID後，接著要取得各個月份的數據。</p>
-<p>打開選手頁面，這個表就是目標<br><img src="https://i.imgur.com/Lqt1zp4.png" alt><br>按下F12觀察，這個表是table來排版的<br>並且在數據的部分有加class<br>找到了目標位置就可以開始解析</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">player_url = <span class="string">"http://www.cpbl.com.tw/players/apart.html?year=2020&amp;type=05&amp;"</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'player_ID.csv'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    rows = csv.DictReader(csvfile)</span><br><span class="line">    <span class="keyword">for</span> row <span class="keyword">in</span> rows:</span><br><span class="line">        player_url = player_url + <span class="string">'player_id='</span> + str(row[<span class="string">'ID'</span>]) + <span class="string">'&amp;teamno='</span> + str(row[<span class="string">'Team ID'</span>])</span><br><span class="line">        res = requests.get(player_url)</span><br><span class="line">        soup = BeautifulSoup(res.text, <span class="string">'html.parser'</span>)</span><br><span class="line">        player_td = soup.select(<span class="string">".display_a1"</span>)</span><br><span class="line">    month = soup.select(<span class="string">"td"</span>)</span><br><span class="line">    month = soup.select(<span class="string">"tr &gt; td:nth-of-type(1)"</span>)</span><br><span class="line">    month.remove(month[<span class="number">0</span>])</span><br><span class="line">    month.remove(month[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    team = soup.select(<span class="string">'span'</span>)</span><br><span class="line"></span><br><span class="line">    player_info, avg_list, OBP_list, SLG_list, PA_list, AB_list, RBI_list, H_list, HR_list = &#123;</span><br><span class="line">    &#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;,&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(month)):</span><br><span class="line">        avg_list[month[i].text] = player_td[<span class="number">19</span> + i*<span class="number">10</span>].text</span><br><span class="line">        OBP_list[month[i].text] = player_td[<span class="number">17</span> + i*<span class="number">10</span>].text</span><br><span class="line">        SLG_list[month[i].text] = player_td[<span class="number">18</span> + i*<span class="number">10</span>].text</span><br><span class="line">        PA_list[month[i].text] = player_td[<span class="number">10</span> + i*<span class="number">10</span>].text</span><br><span class="line">        AB_list[month[i].text] = player_td[<span class="number">11</span> + i*<span class="number">10</span>].text</span><br><span class="line">        RBI_list[month[i].text] = player_td[<span class="number">12</span> + i*<span class="number">10</span>].text</span><br><span class="line">        H_list[month[i].text] = player_td[<span class="number">13</span>+i*<span class="number">10</span>].text</span><br><span class="line">        HR_list[month[i].text] = player_td[<span class="number">14</span>+i*<span class="number">10</span>].text</span><br><span class="line"></span><br><span class="line">    player_info[player_td[<span class="number">9</span>].text] = avg_list</span><br><span class="line">    player_info[player_td[<span class="number">7</span>].text] = OBP_list</span><br><span class="line">    player_info[player_td[<span class="number">8</span>].text] = SLG_list</span><br><span class="line">    player_info[player_td[<span class="number">0</span>].text] = PA_list</span><br><span class="line">    player_info[player_td[<span class="number">1</span>].text] = AB_list</span><br><span class="line">    player_info[player_td[<span class="number">2</span>].text] = RBI_list</span><br><span class="line">    player_info[player_td[<span class="number">3</span>].text] = H_list</span><br><span class="line">    player_info[player_td[<span class="number">4</span>].text] = HR_list</span><br></pre></td></tr></table></figure>
-
+<p>打開選手頁面，這個表就是目標<br><img src="https://i.imgur.com/Lqt1zp4.png"><br>按下F12觀察，這個表是table來排版的<br>並且在數據的部分有加class<br>找到了目標位置就可以開始解析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">player_url = <span class="string">&quot;http://www.cpbl.com.tw/players/apart.html?year=2020&amp;type=05&amp;&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;player_ID.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    rows = csv.DictReader(csvfile)</span><br><span class="line">    <span class="keyword">for</span> row <span class="keyword">in</span> rows:</span><br><span class="line">        player_url = player_url + <span class="string">&#x27;player_id=&#x27;</span> + <span class="built_in">str</span>(row[<span class="string">&#x27;ID&#x27;</span>]) + <span class="string">&#x27;&amp;teamno=&#x27;</span> + <span class="built_in">str</span>(row[<span class="string">&#x27;Team ID&#x27;</span>])</span><br><span class="line">        res = requests.get(player_url)</span><br><span class="line">        soup = BeautifulSoup(res.text, <span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line">        player_td = soup.select(<span class="string">&quot;.display_a1&quot;</span>)</span><br><span class="line">    month = soup.select(<span class="string">&quot;td&quot;</span>)</span><br><span class="line">    month = soup.select(<span class="string">&quot;tr &gt; td:nth-of-type(1)&quot;</span>)</span><br><span class="line">    month.remove(month[<span class="number">0</span>])</span><br><span class="line">    month.remove(month[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    team = soup.select(<span class="string">&#x27;span&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    player_info, avg_list, OBP_list, SLG_list, PA_list, AB_list, RBI_list, H_list, HR_list = &#123;</span><br><span class="line">    &#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;,&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(month)):</span><br><span class="line">        avg_list[month[i].text] = player_td[<span class="number">19</span> + i*<span class="number">10</span>].text</span><br><span class="line">        OBP_list[month[i].text] = player_td[<span class="number">17</span> + i*<span class="number">10</span>].text</span><br><span class="line">        SLG_list[month[i].text] = player_td[<span class="number">18</span> + i*<span class="number">10</span>].text</span><br><span class="line">        PA_list[month[i].text] = player_td[<span class="number">10</span> + i*<span class="number">10</span>].text</span><br><span class="line">        AB_list[month[i].text] = player_td[<span class="number">11</span> + i*<span class="number">10</span>].text</span><br><span class="line">        RBI_list[month[i].text] = player_td[<span class="number">12</span> + i*<span class="number">10</span>].text</span><br><span class="line">        H_list[month[i].text] = player_td[<span class="number">13</span>+i*<span class="number">10</span>].text</span><br><span class="line">        HR_list[month[i].text] = player_td[<span class="number">14</span>+i*<span class="number">10</span>].text</span><br><span class="line"></span><br><span class="line">    player_info[player_td[<span class="number">9</span>].text] = avg_list</span><br><span class="line">    player_info[player_td[<span class="number">7</span>].text] = OBP_list</span><br><span class="line">    player_info[player_td[<span class="number">8</span>].text] = SLG_list</span><br><span class="line">    player_info[player_td[<span class="number">0</span>].text] = PA_list</span><br><span class="line">    player_info[player_td[<span class="number">1</span>].text] = AB_list</span><br><span class="line">    player_info[player_td[<span class="number">2</span>].text] = RBI_list</span><br><span class="line">    player_info[player_td[<span class="number">3</span>].text] = H_list</span><br><span class="line">    player_info[player_td[<span class="number">4</span>].text] = HR_list</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>這邊寫得很醜，<del>但我懶得改了</del><br>下個數據會用好一點的方法</p>
 </blockquote>
 <p>資料爬下來了，但是如果要進行繪圖的話還必須解決月份不一致的問題，有些選手可能一整個月都沒出賽，或是新秀升到一軍，導致長度不一，我這邊用一個長度為8的list來存(因為賽季長度的關係最多8個月)。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">total_info = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> info_type <span class="keyword">in</span> player_info:</span><br><span class="line">    info = [<span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>]</span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> player_info[info_type]:</span><br><span class="line">        n = attr.index(data)</span><br><span class="line">        info[n] = player_info[info_type][data]</span><br><span class="line">    total_info[info_type] = info</span><br><span class="line">total_info[<span class="string">'Name'</span>] = row[<span class="string">'Name'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">total_info = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> info_type <span class="keyword">in</span> player_info:</span><br><span class="line">    info = [<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> player_info[info_type]:</span><br><span class="line">        n = attr.index(data)</span><br><span class="line">        info[n] = player_info[info_type][data]</span><br><span class="line">    total_info[info_type] = info</span><br><span class="line">total_info[<span class="string">&#x27;Name&#x27;</span>] = row[<span class="string">&#x27;Name&#x27;</span>]</span><br></pre></td></tr></table></figure>
 
 <p>到這邊各月份的數據都爬下來了，小缺點是爬取速度還需要再加強，接著會優化這隻爬蟲。</p>
 
@@ -278,9 +299,9 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Python/" rel="tag"># Python</a>
-              <a href="/tags/棒球分析/" rel="tag"># 棒球分析</a>
-              <a href="/tags/中職/" rel="tag"># 中職</a>
-              <a href="/tags/爬蟲/" rel="tag"># 爬蟲</a>
+              <a href="/tags/%E6%A3%92%E7%90%83%E5%88%86%E6%9E%90/" rel="tag"># 棒球分析</a>
+              <a href="/tags/%E4%B8%AD%E8%81%B7/" rel="tag"># 中職</a>
+              <a href="/tags/%E7%88%AC%E8%9F%B2/" rel="tag"># 爬蟲</a>
           </div>
 
         
@@ -294,11 +315,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/27/資料庫邏輯設計/" rel="prev" title="資料庫邏輯設計">
+    <a href="/2021/01/27/%E8%B3%87%E6%96%99%E5%BA%AB%E9%82%8F%E8%BC%AF%E8%A8%AD%E8%A8%88/" rel="prev" title="資料庫邏輯設計">
       <i class="fa fa-chevron-left"></i> 資料庫邏輯設計
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/05/Python-資料存進Firebase/" rel="next" title="[Python]資料存進Firebase">
+    <a href="/2021/02/05/Python-%E8%B3%87%E6%96%99%E5%AD%98%E9%80%B2Firebase/" rel="next" title="[Python]資料存進Firebase">
       [Python]資料存進Firebase <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -359,7 +380,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取得數據"><span class="nav-number">2.</span> <span class="nav-text">取得數據</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E6%95%B8%E6%93%9A"><span class="nav-number">2.</span> <span class="nav-text">取得數據</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -413,7 +434,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -436,9 +457,15 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+
 <script src="/js/utils.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -467,7 +494,9 @@
   }
   </script>
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

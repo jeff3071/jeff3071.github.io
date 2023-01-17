@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,22 +20,34 @@
     var CONFIG = {"hostname":"jeff3071.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PW29Q66X7S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PW29Q66X7S');
+</script>
+
   <meta name="description" content="資料庫(實作)SQL 基本類型 char(n)：用來存放固定長度為n的字串資料 varchar(n)：用來存放最大長度為n的字串資料，實際儲存長度會依資料量而調整 int：用來存放整數資料，最大可存放長度為4位元 smallint：用來存放整數資料，最大可存放長度為2位元 numeric(p,d)：用來存放帶有小數的數值，使用時須指明精確度與小數點位數。此表示資料精準度為p 位數，而p 位數中含有">
-<meta name="keywords" content="database,SQL,SQL server">
 <meta property="og:type" content="article">
 <meta property="og:title" content="資料庫實作">
-<meta property="og:url" content="https://jeff3071.github.io/2021/01/24/資料庫-實作/index.html">
+<meta property="og:url" content="https://jeff3071.github.io/2021/01/24/%E8%B3%87%E6%96%99%E5%BA%AB-%E5%AF%A6%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="資料庫(實作)SQL 基本類型 char(n)：用來存放固定長度為n的字串資料 varchar(n)：用來存放最大長度為n的字串資料，實際儲存長度會依資料量而調整 int：用來存放整數資料，最大可存放長度為4位元 smallint：用來存放整數資料，最大可存放長度為2位元 numeric(p,d)：用來存放帶有小數的數值，使用時須指明精確度與小數點位數。此表示資料精準度為p 位數，而p 位數中含有">
-<meta property="og:locale" content="zh-TW">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://i.imgur.com/EiZnYLH.png">
-<meta property="og:updated_time" content="2021-10-14T14:27:28.986Z">
+<meta property="article:published_time" content="2021-01-24T11:19:22.000Z">
+<meta property="article:modified_time" content="2021-10-14T14:27:28.986Z">
+<meta property="article:author" content="Jeff">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="SQL server">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="資料庫實作">
-<meta name="twitter:description" content="資料庫(實作)SQL 基本類型 char(n)：用來存放固定長度為n的字串資料 varchar(n)：用來存放最大長度為n的字串資料，實際儲存長度會依資料量而調整 int：用來存放整數資料，最大可存放長度為4位元 smallint：用來存放整數資料，最大可存放長度為2位元 numeric(p,d)：用來存放帶有小數的數值，使用時須指明精確度與小數點位數。此表示資料精準度為p 位數，而p 位數中含有">
 <meta name="twitter:image" content="https://i.imgur.com/EiZnYLH.png">
 
-<link rel="canonical" href="https://jeff3071.github.io/2021/01/24/資料庫-實作/">
+<link rel="canonical" href="https://jeff3071.github.io/2021/01/24/%E8%B3%87%E6%96%99%E5%BA%AB-%E5%AF%A6%E4%BD%9C/">
 
 
 <script id="page-configurations">
@@ -50,6 +62,15 @@
 
   <title>資料庫實作 | Blog</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PW29Q66X7S"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PW29Q66X7S');
+      }
+    </script>
 
 
 
@@ -192,7 +213,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://jeff3071.github.io/2021/01/24/資料庫-實作/">
+    <link itemprop="mainEntityOfPage" href="https://jeff3071.github.io/2021/01/24/%E8%B3%87%E6%96%99%E5%BA%AB-%E5%AF%A6%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -230,7 +251,7 @@
               </span>
               <span class="post-meta-item-text">分類於</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/資料庫課程筆記/" itemprop="url" rel="index"><span itemprop="name">資料庫課程筆記</span></a>
+                  <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB%E8%AA%B2%E7%A8%8B%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">資料庫課程筆記</span></a>
                 </span>
             </span>
 
@@ -254,54 +275,43 @@
 <li>real, double precision：用來存放近似浮點數值，其精準度會因機器而產生誤差</li>
 <li>float(n)：用來存放浮點數值，精準度至少為n位數</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 
 <h3 id="建立資料表"><a href="#建立資料表" class="headerlink" title="建立資料表"></a>建立資料表</h3><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">create</span> table &lt;TABLE NAME&gt; (<span class="built_in">A1</span> <span class="built_in">D1</span>, <span class="built_in">A2</span> <span class="built_in">D2</span>, ..., An <span class="meta">Dn</span>,)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>A為資料表內之屬性名稱</li>
 <li>D為屬性之型態</li>
 </ul>
 <p>範例</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> instructor (</span><br><span class="line">                            <span class="keyword">ID</span>             <span class="built_in">char</span>(<span class="number">5</span>),</span><br><span class="line">                            <span class="keyword">name</span>           <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">                            dept_name      <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">                            salary         <span class="built_in">numeric</span>(<span class="number">8</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> instructor (</span><br><span class="line">                            ID             <span class="type">char</span>(<span class="number">5</span>),</span><br><span class="line">                            <span class="type">name</span>           <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">                            dept_name      <span class="type">varchar</span>(<span class="number">20</span>),</span><br><span class="line">                            salary         <span class="type">numeric</span>(<span class="number">8</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
 <p>這個例子建立了instructor資料表，裡面有四個屬性</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> takes (</span><br><span class="line">        <span class="keyword">ID</span>                   <span class="built_in">varchar</span>(<span class="number">5</span>),</span><br><span class="line">        course_id            <span class="built_in">varchar</span>(<span class="number">8</span>),</span><br><span class="line">        sec_id               <span class="built_in">varchar</span>(<span class="number">8</span>),</span><br><span class="line">        semester             <span class="built_in">varchar</span>(<span class="number">6</span>),</span><br><span class="line">        <span class="keyword">year</span>                 <span class="built_in">numeric</span>(<span class="number">4</span>,<span class="number">0</span>),</span><br><span class="line">        grade                <span class="built_in">varchar</span>(<span class="number">2</span>),</span><br><span class="line">        primary <span class="keyword">key</span> (<span class="keyword">ID</span>, course_id, sec_id, semester, <span class="keyword">year</span>),</span><br><span class="line">        <span class="keyword">foreign</span> <span class="keyword">key</span> (<span class="keyword">ID</span>) <span class="keyword">references</span>  student,</span><br><span class="line">        <span class="keyword">foreign</span> <span class="keyword">key</span> (course_id, sec_id, semester, <span class="keyword">year</span>) <span class="keyword">references</span> <span class="keyword">section</span> );</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> takes (</span><br><span class="line">        ID                   <span class="type">varchar</span>(<span class="number">5</span>),</span><br><span class="line">        course_id            <span class="type">varchar</span>(<span class="number">8</span>),</span><br><span class="line">        sec_id               <span class="type">varchar</span>(<span class="number">8</span>),</span><br><span class="line">        semester             <span class="type">varchar</span>(<span class="number">6</span>),</span><br><span class="line">        <span class="keyword">year</span>                 <span class="type">numeric</span>(<span class="number">4</span>,<span class="number">0</span>),</span><br><span class="line">        grade                <span class="type">varchar</span>(<span class="number">2</span>),</span><br><span class="line">        <span class="keyword">primary</span> key (ID, course_id, sec_id, semester, <span class="keyword">year</span>),</span><br><span class="line">        <span class="keyword">foreign</span> key (ID) <span class="keyword">references</span>  student,</span><br><span class="line">        <span class="keyword">foreign</span> key (course_id, sec_id, semester, <span class="keyword">year</span>) <span class="keyword">references</span> section );</span><br></pre></td></tr></table></figure>
 <p>上面是加了primary key與foreign key的版本</p>
-<h3 id="插入資料"><a href="#插入資料" class="headerlink" title="插入資料"></a>插入資料</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> &lt;<span class="keyword">TABLE</span> <span class="keyword">NAME</span>&gt; <span class="keyword">values</span> (...)</span><br></pre></td></tr></table></figure>
+<h3 id="插入資料"><a href="#插入資料" class="headerlink" title="插入資料"></a>插入資料</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="operator">&lt;</span><span class="keyword">TABLE</span> NAME<span class="operator">&gt;</span> <span class="keyword">values</span> (...)</span><br></pre></td></tr></table></figure>
 
 <p>我們可以使用這個關鍵字去插入資料，例如:</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert </span>into <span class="keyword">instructor </span> values (‘<span class="number">10211</span>’, ’Smith’, ’<span class="keyword">Biology’, </span><span class="number">66000</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert </span>into <span class="keyword">instructor </span> values (‘<span class="number">10211</span>’, ’Smith’, ’<span class="keyword">Biology’, </span><span class="number">66000</span>);</span><br></pre></td></tr></table></figure>
 <p>這筆資料的ID為10211，name為Smith以此類推。</p>
 <p>若使用</p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> instructor  <span class="keyword">values</span> (‘<span class="number">10211</span>’, <span class="literal">null</span>, ’Biology’, <span class="number">66000</span>);</span><br></pre></td></tr></table></figure>
-
 <p>會失敗，因為name被定義為不能為空。</p>
-<h3 id="查詢資料"><a href="#查詢資料" class="headerlink" title="查詢資料"></a>查詢資料</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> &lt;<span class="keyword">NAME</span>&gt; <span class="keyword">from</span> &lt;<span class="keyword">TABLE</span> <span class="keyword">NAME</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="查詢資料"><a href="#查詢資料" class="headerlink" title="查詢資料"></a>查詢資料</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> &lt;<span class="type">NAME</span>&gt; <span class="keyword">from</span> &lt;<span class="keyword">TABLE</span> <span class="type">NAME</span>&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="刪除及修改資料"><a href="#刪除及修改資料" class="headerlink" title="刪除及修改資料"></a>刪除及修改資料</h3><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop <span class="keyword">table</span> instructor</span><br></pre></td></tr></table></figure>
-
+<h3 id="刪除及修改資料"><a href="#刪除及修改資料" class="headerlink" title="刪除及修改資料"></a>刪除及修改資料</h3><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="built_in">table</span> instructor</span><br></pre></td></tr></table></figure>
 <p>刪除資料表及其內容</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete <span class="keyword">table</span> instructor</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">table</span> instructor</span><br></pre></td></tr></table></figure>
 <p>刪除所有資料表的內容，但<strong>保留此資料表</strong></p>
 <p>上述兩種都會使資料表內容完全清空</p>
 <p>若要修改資料表內的屬性值使用<em>alter</em></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> &lt;<span class="keyword">TABLE</span> <span class="keyword">NAME</span>&gt; <span class="keyword">add</span> A D</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> &lt;<span class="keyword">TABLE</span> <span class="type">NAME</span>&gt; <span class="keyword">add</span> A D</span><br></pre></td></tr></table></figure>
 <p>A 是新增的屬性名稱，而D則是新增屬性之資料類別<br>在一開始的新屬性中，所有關聯中的原組都會被指派為null</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> &lt;<span class="keyword">TABLE</span> <span class="keyword">NAME</span>&gt; <span class="keyword">drop</span> A</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> &lt;<span class="keyword">TABLE</span> <span class="type">NAME</span>&gt; <span class="keyword">drop</span> A</span><br></pre></td></tr></table></figure>
 <p>A為資料表中屬性名稱</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE<span class="built_in"> Customer </span><span class="builtin-name">ADD</span> PRIMARY KEY (SID);</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Customer <span class="keyword">ADD</span> <span class="keyword">PRIMARY</span> <span class="keyword">KEY</span> (SID);</span><br></pre></td></tr></table></figure>
 <p>為Customer 增加 primary key 若原本的attribute可以為空則必須下</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE<span class="built_in"> Customer </span>ALTER COLUMN SID int <span class="keyword">not</span> <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Customer <span class="keyword">ALTER</span> <span class="keyword">COLUMN</span> SID <span class="type">int</span> <span class="keyword">not</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
 <p>必須重複一次原本的型態</p>
-<h2 id="SQL查詢結構"><a href="#SQL查詢結構" class="headerlink" title="SQL查詢結構"></a>SQL查詢結構</h2><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> A <span class="keyword">From</span> r <span class="keyword">where</span> P</span><br></pre></td></tr></table></figure>
+<h2 id="SQL查詢結構"><a href="#SQL查詢結構" class="headerlink" title="SQL查詢結構"></a>SQL查詢結構</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select <span class="selector-tag">A</span> <span class="selector-tag">From</span> r where <span class="selector-tag">P</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>A為屬性</li>
@@ -309,34 +319,28 @@
 <li>P為條件</li>
 </ul>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> Country <span class="keyword">from</span> Customers</span><br></pre></td></tr></table></figure>
-
 <p>distinct關鍵字會使查詢結果不含重複值<br>所以上面的語句就是從Customers中抓出不重複的Country</p>
 <p><em>where</em>則是可以用來設定查詢的條件</p>
-<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ProductName <span class="keyword">from</span> Products <span class="keyword">where</span> CategoryID = <span class="string">'1'</span> <span class="keyword">and</span> Unitprice &gt; <span class="number">20</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ProductName <span class="keyword">from</span> Products <span class="keyword">where</span> CategoryID = <span class="string">&#x27;1&#x27;</span> and Unitprice &gt; <span class="number">20</span></span><br></pre></td></tr></table></figure>
 <p>上面的語句為查詢Products中CategoryID為1且Uniprice &gt; 20 的ProductName</p>
-<p><strong>SQL中的相等為=而不是==</strong></p>
+<p><strong>SQL中的相等為&#x3D;而不是&#x3D;&#x3D;</strong></p>
 <p>between : 可用來指定值必須介於某一閥值之間</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">where</span> salary <span class="keyword">between</span> <span class="number">90000</span> <span class="keyword">and</span> <span class="number">100000</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="type">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">where</span> salary <span class="keyword">between</span> <span class="number">90000</span> <span class="keyword">and</span> <span class="number">100000</span></span><br></pre></td></tr></table></figure>
 <p>上面的語句為查詢instructor中salary介於90000和100000之間的教師名子</p>
 <h3 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h3><h4 id="Natural-Join"><a href="#Natural-Join" class="headerlink" title="Natural Join"></a>Natural Join</h4><p>運算涵蓋兩個資料表，然後產生一個共同的關聯為結果</p>
 <p>只考慮出現在雙方資料表且有相同屬性值的欄位<br><strong>兩資料表之間同名的欄位會被自動結合在一起</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>, course_id</span><br><span class="line"><span class="keyword">from</span> instructor, teachers</span><br><span class="line"><span class="keyword">where</span> instructor.ID = teachers.ID;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="type">name</span>, course_id</span><br><span class="line"><span class="keyword">from</span> instructor, teachers</span><br><span class="line"><span class="keyword">where</span> instructor.ID = teachers.ID;</span><br></pre></td></tr></table></figure>
 <p>等同於</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>, course_id</span><br><span class="line"><span class="keyword">from</span> instructors <span class="keyword">natural</span> <span class="keyword">join</span> teachers;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="type">name</span>, course_id</span><br><span class="line"><span class="keyword">from</span> instructors <span class="keyword">natural</span> <span class="keyword">join</span> teachers;</span><br></pre></td></tr></table></figure>
 
-<h4 id="其他Join"><a href="#其他Join" class="headerlink" title="其他Join"></a>其他Join</h4><p><img src="https://i.imgur.com/EiZnYLH.png" alt></p>
-<h3 id="as-別名運算"><a href="#as-別名運算" class="headerlink" title="as(別名運算)"></a>as(別名運算)</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">SELECT</span> t1.student_number, [<span class="keyword">section</span>].instructor ,t1.grade <span class="keyword">FROM</span></span><br><span class="line">    (<span class="keyword">SELECT</span> student.student_number ,section_identifier ,grade </span><br><span class="line">    <span class="keyword">FROM</span> Grade_report, student</span><br><span class="line">    <span class="keyword">WHERE</span> Grade_report.student_number = student.student_number <span class="keyword">and</span> student.name = <span class="string">'Jeff'</span>) <span class="keyword">as</span> t1</span><br><span class="line"><span class="keyword">INNER</span>  <span class="keyword">JOIN</span> [<span class="keyword">section</span>] <span class="keyword">on</span> [<span class="keyword">section</span>].section_identifier = t1.section_identifier;</span><br></pre></td></tr></table></figure>
-
+<h4 id="其他Join"><a href="#其他Join" class="headerlink" title="其他Join"></a>其他Join</h4><p><img src="https://i.imgur.com/EiZnYLH.png"></p>
+<h3 id="as-別名運算"><a href="#as-別名運算" class="headerlink" title="as(別名運算)"></a>as(別名運算)</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">SELECT</span> t1.student_number, [section].instructor ,t1.grade <span class="keyword">FROM</span></span><br><span class="line">    (<span class="keyword">SELECT</span> student.student_number ,section_identifier ,grade </span><br><span class="line">    <span class="keyword">FROM</span> Grade_report, student</span><br><span class="line">    <span class="keyword">WHERE</span> Grade_report.student_number = student.student_number <span class="keyword">and</span> student.name = <span class="string">&#x27;Jeff&#x27;</span>) <span class="keyword">as</span> t1</span><br><span class="line"><span class="keyword">INNER</span>  <span class="keyword">JOIN</span> [section] <span class="keyword">on</span> [section].section_identifier = t1.section_identifier;</span><br></pre></td></tr></table></figure>
 <p>t1表示為Grade_report和student兩個表中student_number一樣且名字為Jeff的關聯<br>並且加入了section</p>
 <h3 id="like-字串運算"><a href="#like-字串運算" class="headerlink" title="like(字串運算)"></a>like(字串運算)</h3><ul>
 <li>%:任何含有零個或多個字元的字串</li>
 <li>_:表示任何單一字元</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%dar%'</span>;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="type">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">where</span> <span class="type">name</span> <span class="keyword">like</span> <span class="string">&#x27;%dar%&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <p>上面的語句為查詢instructor中含有dar的教師名稱</p>
 <ul>
 <li><em>intro%</em>:任何<strong>開頭</strong>為intro的字串</li>
@@ -344,14 +348,13 @@
 <li><em>___</em>:表示正好三個字源的字串</li>
 <li><em>___%</em>:表示至少四個字元的字串</li>
 </ul>
-<h3 id="order-by-查詢結果排序"><a href="#order-by-查詢結果排序" class="headerlink" title="order by(查詢結果排序)"></a>order by(查詢結果排序)</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">name</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="order-by-查詢結果排序"><a href="#order-by-查詢結果排序" class="headerlink" title="order by(查詢結果排序)"></a>order by(查詢結果排序)</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="type">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="type">name</span></span><br></pre></td></tr></table></figure>
 <p>上面的語句為依照name的字母順序列出所有不重複的instructor</p>
 <blockquote>
 <p>order by預設為升冪排序<br>若要降冪排序必須要在後面加desc</p>
 </blockquote>
 <p>例</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="type">name</span></span><br><span class="line"><span class="keyword">from</span> instructor</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="type">name</span> <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="集合運算"><a href="#集合運算" class="headerlink" title="集合運算"></a>集合運算</h3><ul>
 <li>union(交集)</li>
@@ -362,13 +365,13 @@
 <p>上面三種運算都可以自動消除重複值<br>若要保留則要改寫成 union all, intersect all, except all</p>
 </blockquote>
 <p>查詢在2009 年秋季或2010 年春季有開課的課程代碼</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> course_id from section where sem = ‘Fall’ and year = <span class="number">2009</span>)</span><br><span class="line"> <span class="class"><span class="keyword">union</span></span></span><br><span class="line">(<span class="keyword">select</span> course_id from section where sem = ‘Spring’ and year = <span class="number">2010</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> section <span class="keyword">where</span> sem <span class="operator">=</span> ‘Fall’ <span class="keyword">and</span> <span class="keyword">year</span> <span class="operator">=</span> <span class="number">2009</span>)</span><br><span class="line"> <span class="keyword">union</span></span><br><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> section <span class="keyword">where</span> sem <span class="operator">=</span> ‘Spring’ <span class="keyword">and</span> <span class="keyword">year</span> <span class="operator">=</span> <span class="number">2010</span>)</span><br></pre></td></tr></table></figure>
 
 <p>查詢在2009 年秋季和2010 年春季皆有開課的課程代碼</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> <span class="keyword">section</span> <span class="keyword">where</span> sem = ‘Fall’ <span class="keyword">and</span> <span class="keyword">year</span> = <span class="number">2009</span>)</span><br><span class="line"> <span class="keyword">intersect</span></span><br><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> <span class="keyword">section</span> <span class="keyword">where</span> sem = ‘Spring’ <span class="keyword">and</span> <span class="keyword">year</span> = <span class="number">2010</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> section <span class="keyword">where</span> sem <span class="operator">=</span> ‘Fall’ <span class="keyword">and</span> <span class="keyword">year</span> <span class="operator">=</span> <span class="number">2009</span>)</span><br><span class="line"> <span class="keyword">intersect</span></span><br><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> section <span class="keyword">where</span> sem <span class="operator">=</span> ‘Spring’ <span class="keyword">and</span> <span class="keyword">year</span> <span class="operator">=</span> <span class="number">2010</span>)</span><br></pre></td></tr></table></figure>
 
 <p>查詢在2009 年秋季有開課但2010 年春季未開課的課程代碼</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> <span class="keyword">section</span> <span class="keyword">where</span> sem = ‘Fall’ <span class="keyword">and</span> <span class="keyword">year</span> = <span class="number">2009</span>)</span><br><span class="line"> <span class="keyword">except</span></span><br><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> <span class="keyword">section</span> <span class="keyword">where</span> sem = ‘Spring’ <span class="keyword">and</span> <span class="keyword">year</span> = <span class="number">2010</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> section <span class="keyword">where</span> sem <span class="operator">=</span> ‘Fall’ <span class="keyword">and</span> <span class="keyword">year</span> <span class="operator">=</span> <span class="number">2009</span>)</span><br><span class="line"> <span class="keyword">except</span></span><br><span class="line">(<span class="keyword">select</span> course_id <span class="keyword">from</span> section <span class="keyword">where</span> sem <span class="operator">=</span> ‘Spring’ <span class="keyword">and</span> <span class="keyword">year</span> <span class="operator">=</span> <span class="number">2010</span>)</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -393,11 +396,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/10/資料庫理論/" rel="prev" title="資料庫理論">
+    <a href="/2020/08/10/%E8%B3%87%E6%96%99%E5%BA%AB%E7%90%86%E8%AB%96/" rel="prev" title="資料庫理論">
       <i class="fa fa-chevron-left"></i> 資料庫理論
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/27/資料庫邏輯設計/" rel="next" title="資料庫邏輯設計">
+    <a href="/2021/01/27/%E8%B3%87%E6%96%99%E5%BA%AB%E9%82%8F%E8%BC%AF%E8%A8%AD%E8%A8%88/" rel="next" title="資料庫邏輯設計">
       資料庫邏輯設計 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -458,7 +461,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#資料庫-實作"><span class="nav-number">1.</span> <span class="nav-text">資料庫(實作)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-基本類型"><span class="nav-number">1.1.</span> <span class="nav-text">SQL 基本類型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立資料表"><span class="nav-number">1.2.</span> <span class="nav-text">建立資料表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入資料"><span class="nav-number">1.3.</span> <span class="nav-text">插入資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查詢資料"><span class="nav-number">1.4.</span> <span class="nav-text">查詢資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刪除及修改資料"><span class="nav-number">1.5.</span> <span class="nav-text">刪除及修改資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL查詢結構"><span class="nav-number">2.</span> <span class="nav-text">SQL查詢結構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Join"><span class="nav-number">2.1.</span> <span class="nav-text">Join</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Natural-Join"><span class="nav-number">2.1.1.</span> <span class="nav-text">Natural Join</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他Join"><span class="nav-number">2.1.2.</span> <span class="nav-text">其他Join</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#as-別名運算"><span class="nav-number">2.2.</span> <span class="nav-text">as(別名運算)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#like-字串運算"><span class="nav-number">2.3.</span> <span class="nav-text">like(字串運算)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#order-by-查詢結果排序"><span class="nav-number">2.4.</span> <span class="nav-text">order by(查詢結果排序)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合運算"><span class="nav-number">2.5.</span> <span class="nav-text">集合運算</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%BA%AB-%E5%AF%A6%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">資料庫(實作)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">SQL 基本類型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E8%A1%A8"><span class="nav-number">1.2.</span> <span class="nav-text">建立資料表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E8%B3%87%E6%96%99"><span class="nav-number">1.3.</span> <span class="nav-text">插入資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%A9%A2%E8%B3%87%E6%96%99"><span class="nav-number">1.4.</span> <span class="nav-text">查詢資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E5%8F%8A%E4%BF%AE%E6%94%B9%E8%B3%87%E6%96%99"><span class="nav-number">1.5.</span> <span class="nav-text">刪除及修改資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">SQL查詢結構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Join"><span class="nav-number">2.1.</span> <span class="nav-text">Join</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Natural-Join"><span class="nav-number">2.1.1.</span> <span class="nav-text">Natural Join</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96Join"><span class="nav-number">2.1.2.</span> <span class="nav-text">其他Join</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#as-%E5%88%A5%E5%90%8D%E9%81%8B%E7%AE%97"><span class="nav-number">2.2.</span> <span class="nav-text">as(別名運算)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#like-%E5%AD%97%E4%B8%B2%E9%81%8B%E7%AE%97"><span class="nav-number">2.3.</span> <span class="nav-text">like(字串運算)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#order-by-%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E6%8E%92%E5%BA%8F"><span class="nav-number">2.4.</span> <span class="nav-text">order by(查詢結果排序)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E9%81%8B%E7%AE%97"><span class="nav-number">2.5.</span> <span class="nav-text">集合運算</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -512,7 +515,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -535,9 +538,15 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+
 <script src="/js/utils.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -566,7 +575,9 @@
   }
   </script>
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 
